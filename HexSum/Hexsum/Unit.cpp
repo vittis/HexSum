@@ -28,10 +28,14 @@ Unit::Unit(Hex* hex, Player* player) {
 	box.w = spAtual.GetWidth();
 	box.h = spAtual.GetHeight();
 	state = UnitState::IDLE;
-	if (owner->color == Player::BLUE)
-		location->Highlight(Hex::Cor::AZUL);
-	else
-		location->Highlight(Hex::Cor::VERMELHO);
+	if (owner->color == Player::GREEN) {
+		std::cout<<owner->color<<std::endl;
+		std::cout<<Hex::Cor::VERDE<<std::endl;
+
+	}
+	location->Highlight(static_cast<Hex::Cor>((int)owner->color));
+	//else
+	//	location->Highlight(Hex::Cor::VERMELHO);
 }
 void Unit::MoveTo(Hex* hex) {
 	SetAnimacao(AnimationType::MOVING);
@@ -149,10 +153,10 @@ void Unit::ActionSetup() {
 	firstAction=false;
 	ArenaState::grid->UnHighlightAll();
 	for (int i=0; i< ArenaState::turnLogic.allUnits.size(); i++) {
-		if (ArenaState::turnLogic.allUnits[i]->owner->color == Player::BLUE)
-			ArenaState::turnLogic.allUnits[i]->location->Highlight(Hex::Cor::AZUL);
-		else
-			ArenaState::turnLogic.allUnits[i]->location->Highlight(Hex::Cor::VERMELHO);
+		//if (ArenaState::turnLogic.allUnits[i]->owner->color == Player::BLUE)
+			ArenaState::turnLogic.allUnits[i]->location->Highlight(static_cast<Hex::Cor>((int)ArenaState::turnLogic.allUnits[i]->owner->color));
+		//else
+		//	ArenaState::turnLogic.allUnits[i]->location->Highlight(Hex::Cor::VERMELHO);
 	}
 }
 void Unit::EndTurn() {

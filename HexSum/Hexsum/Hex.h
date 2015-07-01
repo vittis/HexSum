@@ -27,12 +27,13 @@ public:
 	bool isEmpty;
 	Point center;
 	enum Cor {
-		PADRAO,
-		AMARELO,
-		VERDE,
 		VERMELHO,
+		AZUL,
+		VERDE,
+		ROXO,
 		BEGE,
-		AZUL
+		AMARELO,
+		PADRAO
 	};
 	void Highlight(Cor cor);
 	void UnHighlight();

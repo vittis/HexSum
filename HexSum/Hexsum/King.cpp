@@ -92,16 +92,16 @@ void King::PrepareSpecialAbility() {
 }
 void King::PerformSpecialAbility(Hex* hex) {
 	SetAnimacao(AnimationType::CASTING);
-	if (owner->color == Player::BLUE) {
-		Unit* archer = new Archer(hex, ArenaState::player1);
-		Game::GetInstance()->GetCurrentState().AddObject(archer);
-		ArenaState::turnLogic.allUnits.emplace_back(archer);
-	}
-	else {
-		Unit* archer = new Archer(hex, ArenaState::player2);
-		Game::GetInstance()->GetCurrentState().AddObject(archer);
-		ArenaState::turnLogic.allUnits.emplace_back(archer);
-	}
+	//if (owner->color == Player::BLUE) {
+	Unit* archer = new Archer(hex, owner);
+	Game::GetInstance()->GetCurrentState().AddObject(archer);
+	ArenaState::turnLogic.allUnits.emplace_back(archer);
+	//}
+	//else {
+	//	Unit* archer = new Archer(hex, ArenaState::player2);
+	//	Game::GetInstance()->GetCurrentState().AddObject(archer);
+	//	ArenaState::turnLogic.allUnits.emplace_back(archer);
+	//}
 }
 void King::ShowSummonRange() {
 	for (int i=0; i<ArenaState::grid->hex_directions.size(); i++) {
