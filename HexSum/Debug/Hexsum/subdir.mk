@@ -17,6 +17,7 @@ CPP_SRCS += \
 ../Hexsum/SelectReiState.cpp \
 ../Hexsum/Soldier.cpp \
 ../Hexsum/StateData.cpp \
+../Hexsum/SummonManager.cpp \
 ../Hexsum/TurnLogic.cpp \
 ../Hexsum/UIElement.cpp \
 ../Hexsum/Unit.cpp 
@@ -35,6 +36,7 @@ OBJS += \
 ./Hexsum/SelectReiState.o \
 ./Hexsum/Soldier.o \
 ./Hexsum/StateData.o \
+./Hexsum/SummonManager.o \
 ./Hexsum/TurnLogic.o \
 ./Hexsum/UIElement.o \
 ./Hexsum/Unit.o 
@@ -53,6 +55,7 @@ CPP_DEPS += \
 ./Hexsum/SelectReiState.d \
 ./Hexsum/Soldier.d \
 ./Hexsum/StateData.d \
+./Hexsum/SummonManager.d \
 ./Hexsum/TurnLogic.d \
 ./Hexsum/UIElement.d \
 ./Hexsum/Unit.d 

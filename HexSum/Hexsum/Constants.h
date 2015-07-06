@@ -20,9 +20,9 @@ public:
 		static constexpr float f2 = 0.866;
 		static constexpr float f3 = 1.732;
 	};
-	static constexpr Hex::Cor MOVE_RANGE= Hex::VERDE;
+	static constexpr Hex::Cor MOVE_RANGE= Hex::CIANO;
 	static constexpr Hex::Cor ATTACK_RANGE= Hex::AMARELO;
-	static constexpr Hex::Cor ATTACK_UNIT= Hex::BEGE;
+	static constexpr Hex::Cor ATTACK_UNIT= Hex::LARANJA;
 	static constexpr Hex::Cor SPECIAL_ABILITY_RANGE= Hex::AZUL;
 };
 

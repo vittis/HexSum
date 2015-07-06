@@ -33,7 +33,9 @@ public:
 		ROXO,
 		BEGE,
 		AMARELO,
-		PADRAO
+		PADRAO,
+		CIANO,
+		LARANJA
 	};
 	void Highlight(Cor cor);
 	void UnHighlight();

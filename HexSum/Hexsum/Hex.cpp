@@ -27,7 +27,7 @@ Hex::Hex(int q, int r): q(q), r(r), originalColor(Cor::PADRAO) {
 	else {
 		sp.Open("img/hex.png");
 	}
-	center.x = 640+20 + (r * Constants::HexLayout::f1 + q *Constants::HexLayout::f0) * sp.GetWidth() / 2;
+	center.x = 640 + (r * Constants::HexLayout::f1 + q *Constants::HexLayout::f0) * sp.GetWidth() / 2;
 	center.y = 384+ (r * Constants::HexLayout::f3 + q *Constants::HexLayout::f2) * sp.GetHeight() / 11.1-sp.GetHeight()/5;
 	box = Rect(center.x-sp.GetWidth()/4, center.y-13, 50, 25);
 }
@@ -65,6 +65,15 @@ void Hex::Highlight(Cor cor) {
 				break;
 			case Cor::AZUL:
 				sp.Open("img/hex_azul.png");
+				break;
+			case Cor::ROXO:
+				sp.Open("img/hex_roxo.png");
+				break;
+			case Cor::CIANO:
+				sp.Open("img/hex_ciano.png");
+				break;
+			case Cor::LARANJA:
+				sp.Open("img/hex_laranja.png");
 				break;
 			default:
 				break;
