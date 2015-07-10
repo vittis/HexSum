@@ -12,26 +12,28 @@
 #include "../Game.h"
 #include "Archer.h"
 #include "Soldier.h"
+#include "Cleric.h"
 
 
 void SummonManager::SummonUnit(TipoUnidade tipoUnidade, Hex* hex, Player* player) {
-
-	/*switch (tipoUnidade) {
+	Unit* unit;
+	switch (tipoUnidade) {
 	case TipoUnidade::ARCHER:
-		Unit* archer = new Archer(hex, player);
-		Game::GetInstance()->GetCurrentState().AddObject(archer);
-		ArenaState::turnLogic.allUnits.emplace_back(archer);
+		unit = new Archer(hex, player);
+		Game::GetInstance()->GetCurrentState().AddObject(unit);
+		ArenaState::turnLogic.allUnits.emplace_back(unit);
 		break;
 	case TipoUnidade::SOLDIER:
-		Unit* archer = new Soldier(hex, player);
-		Game::GetInstance()->GetCurrentState().AddObject(archer);
-		ArenaState::turnLogic.allUnits.emplace_back(archer);
-
-
+		unit = new Soldier(hex, player);
+		Game::GetInstance()->GetCurrentState().AddObject(unit);
+		ArenaState::turnLogic.allUnits.emplace_back(unit);
+		break;
+	case TipoUnidade::CLERIGO:
+		unit = new Cleric(hex, player);
+		Game::GetInstance()->GetCurrentState().AddObject(unit);
+		ArenaState::turnLogic.allUnits.emplace_back(unit);
+		break;
 	}
-
-
-*/
 
 
 

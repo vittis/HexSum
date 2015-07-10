@@ -21,8 +21,8 @@ Hex::Hex(int q, int r): q(q), r(r), originalColor(Cor::PADRAO) {
 	sp.SetScaleX(0.4);
 	sp.SetScaleY(0.4);
 	if (q == 0 && r ==0) {
-		Highlight(Cor::VERMELHO);
-		originalColor = Cor::VERMELHO;
+		Highlight(Cor::BEGE);
+		originalColor = Cor::BEGE;
 	}
 	else {
 		sp.Open("img/hex.png");

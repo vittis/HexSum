@@ -55,7 +55,7 @@ Hexsum/King.d: ../Hexsum/King.cpp ../Hexsum/King.h ../Hexsum/Unit.h \
  ../Hexsum/../Game.h ../Hexsum/../State.h ../Hexsum/../Resources.h \
  ../Hexsum/../Game.h C:\SDL2-2.0.3\include\SDL2/SDL_Mixer.h \
  C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h ../Hexsum/../InputManager.h \
- ../Hexsum/../Camera.h
+ ../Hexsum/../Camera.h ../Hexsum/Cleric.h ../Hexsum/Soldier.h
 
 ../Hexsum/King.h:
 
@@ -214,3 +214,7 @@ C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h:
 ../Hexsum/../InputManager.h:
 
 ../Hexsum/../Camera.h:
+
+../Hexsum/Cleric.h:
+
+../Hexsum/Soldier.h:

@@ -7,6 +7,7 @@ CPP_SRCS += \
 ../Hexsum/Archer.cpp \
 ../Hexsum/ArenaState.cpp \
 ../Hexsum/Button.cpp \
+../Hexsum/Cleric.cpp \
 ../Hexsum/Hex.cpp \
 ../Hexsum/HexGrid.cpp \
 ../Hexsum/Image.cpp \
@@ -26,6 +27,7 @@ OBJS += \
 ./Hexsum/Archer.o \
 ./Hexsum/ArenaState.o \
 ./Hexsum/Button.o \
+./Hexsum/Cleric.o \
 ./Hexsum/Hex.o \
 ./Hexsum/HexGrid.o \
 ./Hexsum/Image.o \
@@ -45,6 +47,7 @@ CPP_DEPS += \
 ./Hexsum/Archer.d \
 ./Hexsum/ArenaState.d \
 ./Hexsum/Button.d \
+./Hexsum/Cleric.d \
 ./Hexsum/Hex.d \
 ./Hexsum/HexGrid.d \
 ./Hexsum/Image.d \

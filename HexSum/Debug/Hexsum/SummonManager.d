@@ -55,7 +55,8 @@ Hexsum/SummonManager.d: ../Hexsum/SummonManager.cpp \
  ../Hexsum/../Game.h ../Hexsum/../State.h ../Hexsum/../Resources.h \
  ../Hexsum/../Game.h C:\SDL2-2.0.3\include\SDL2/SDL_Mixer.h \
  C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h ../Hexsum/../InputManager.h \
- ../Hexsum/../Camera.h ../Hexsum/Archer.h ../Hexsum/Soldier.h
+ ../Hexsum/../Camera.h ../Hexsum/Archer.h ../Hexsum/Soldier.h \
+ ../Hexsum/Cleric.h
 
 ../Hexsum/SummonManager.h:
 
@@ -214,3 +215,5 @@ C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h:
 ../Hexsum/Archer.h:
 
 ../Hexsum/Soldier.h:
+
+../Hexsum/Cleric.h:

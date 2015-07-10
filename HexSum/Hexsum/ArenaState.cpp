@@ -146,6 +146,11 @@ void ArenaState::Render(){
 
 	campo.Render(580,640,0);
 
+	for (int i =0; i< objectArray.size(); i++) {
+		if (objectArray[i].get()->Is("StillAnimation"))
+			objectArray[i].get()->Render();
+	}
+
 	for(int i = turnLogic.indice; i < turnLogic.allUnits.size(); i++){
 		turnLogic.allUnits[i]->card.Render(600+(i-(turnLogic.indice))*600/turnLogic.allUnits.size(), 650,0);
 

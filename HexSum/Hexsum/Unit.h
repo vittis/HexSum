@@ -77,6 +77,7 @@ public:
 	Hex* moveDestination;
 	bool animating;
 	bool facingRight;
+	bool hasDivineShield;
 
 	Sprite card;
 	Sprite sprite_idle;

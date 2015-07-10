@@ -9,8 +9,11 @@
 #include "ArenaState.h"
 #include "../InputManager.h"
 #include "Constants.h"
+#include "../Game.h"
+#include "../StillAnimation.h"
 
 Unit::Unit(Hex* hex, Player* player) {
+	hasDivineShield=false;
 	highlightUnit=true;
 	unHighlightUnit=false;
 	animating=false;
@@ -28,11 +31,6 @@ Unit::Unit(Hex* hex, Player* player) {
 	box.w = spAtual.GetWidth();
 	box.h = spAtual.GetHeight();
 	state = UnitState::IDLE;
-	if (owner->color == Player::GREEN) {
-		std::cout<<owner->color<<std::endl;
-		std::cout<<Hex::Cor::VERDE<<std::endl;
-
-	}
 	location->Highlight(static_cast<Hex::Cor>((int)owner->color));
 	//else
 	//	location->Highlight(Hex::Cor::VERMELHO);
@@ -82,7 +80,10 @@ void Unit::ActionIntent(Action action) {
 void Unit::TakeAction(Action action, Hex* hex) {
 	//if (!unHighlightUnit) { Descomentar para clicar no hex só se a parada tiver descido
 	if (hex != NULL)
-		facingRight = hex->center.x > location->center.x;
+		if(hex->center.x > location->center.x)
+			facingRight = true;
+		else if(hex->center.x< location->center.x)
+			facingRight = false;
 		switch (action) {
 			case Action::MOVE:
 				if (ap >= 1) {
@@ -137,11 +138,13 @@ void Unit::AttackUnit(Unit* unit) {
 	}
 	SetAnimacao(AnimationType::ATTACKING);
 	unit->ReceiveDamage(this->atk);
-
 }
 void Unit::ReceiveDamage(int damage) {
 	SetAnimacao(AnimationType::DAMAGE);
-	hp-=damage;
+	if (!hasDivineShield)
+		hp-=damage;
+	else
+		hp-=damage-1;
 	if (hp<=0) {
 		ArenaState::turnLogic.RemoveUnit(this);
 		location->isEmpty=true;
@@ -263,6 +266,8 @@ void Unit::SetAnimacao(AnimationType animationType){
 	}
 	if (animationType == AnimationType::MOVING){
 		spAtual = sprite_walking;
+		if (Is("Soldier"))
+			spAtual.SetFrame(12);
 	}
 }
 
@@ -289,6 +294,7 @@ bool Unit::IsDead() {
 	if (hp<=0 && !animating) {
 		location->unit = NULL;
 		location->UnHighlight();
+		Game::GetInstance()->GetCurrentState().AddObject(new StillAnimation(location->box.x+23, location->box.y-25, 0, Sprite("img/death.png", 37, 0.03), 1, true));
 		return true;
 	}
 	return false;

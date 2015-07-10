@@ -20,7 +20,7 @@ public:
 	StillAnimation(float, float, float, Sprite, float, bool);
 	void Update(float dt);
 	void Render();
-	bool isDead();
+	bool IsDead();
 	void NotifyCollision(GameObject &other );
 	bool Is(string);
 

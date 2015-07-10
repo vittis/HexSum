@@ -47,9 +47,10 @@ public:
 	GameObject *unit;
 	float height;
 	float originalHeight;
+	Sprite sp;
 private:
 	const int q, r;
-	Sprite sp;
+
 };
 
 
