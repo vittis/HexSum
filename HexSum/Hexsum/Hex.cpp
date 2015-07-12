@@ -25,55 +25,47 @@ Hex::Hex(int q, int r): q(q), r(r), originalColor(Cor::PADRAO) {
 		originalColor = Cor::BEGE;
 	}
 	else {
-		sp.Open("img/hex.png");
+		string pathFinal;
+		pathFinal = "img/" + ArenaState::GetPrefixo() + "/hex.png";
+		sp.Open(pathFinal);
 	}
 	center.x = 640 + (r * Constants::HexLayout::f1 + q *Constants::HexLayout::f0) * sp.GetWidth() / 2;
 	center.y = 384+ (r * Constants::HexLayout::f3 + q *Constants::HexLayout::f2) * sp.GetHeight() / 11.1-sp.GetHeight()/5;
 	box = Rect(center.x-sp.GetWidth()/4, center.y-13, 50, 25);
 }
 void Hex::Update() {
-	/*if (InputManager::GetInstance().MousePress(1)) {
-		if (box.IsInside((float)InputManager::GetInstance().GetMouseX(), (float)InputManager::GetInstance().GetMouseY())) {
-			std::cout<<q<<", "<<r<<std::endl;
-			if (color == Cor::AMARELO && ArenaState::selectedUnit != NULL) {
-				ArenaState::selectedUnit->location->UnHighlight();
-				for (int i=0; i<ArenaState::grid->hex_directions.size(); i++) {
-					if (ArenaState::grid->GetNeighbor(*ArenaState::selectedUnit->location, i).isEmpty)
-						ArenaState::grid->GetNeighbor(*ArenaState::selectedUnit->location, i).UnHighlight();
-				}
-				ArenaState::selectedUnit->MoveTo(this);
-				ArenaState::selectedUnit->state = Unit::UnitState::IDLE;
-				ArenaState::selectedUnit->EndAction();
-			}
-		}
-	}*/
+
 }
 void Hex::Highlight(Cor cor) {
+	string pathFinal = "img/" + ArenaState::GetPrefixo();
 	if (color != cor) {
 		switch (cor) {
 			case Cor::AMARELO:
-				sp.Open("img/hex_amarelo.png");
+				sp.Open(pathFinal+"/hex_amarelo.png");
 				break;
 			case Cor::VERMELHO:
-				sp.Open("img/hex_vermelho.png");
+				sp.Open(pathFinal+"/hex_vermelho.png");
 				break;
 			case Cor::VERDE:
-				sp.Open("img/hex_verde.png");
+				sp.Open(pathFinal+"/hex_verdeclaro.png");
 				break;
 			case Cor::BEGE:
-				sp.Open("img/hex_bege.png");
+				sp.Open(pathFinal+"/hex_bege.png");
 				break;
 			case Cor::AZUL:
-				sp.Open("img/hex_azul.png");
+				sp.Open(pathFinal+"/hex_azul.png");
 				break;
 			case Cor::ROXO:
-				sp.Open("img/hex_roxo.png");
+				sp.Open(pathFinal+"/hex_roxo.png");
 				break;
 			case Cor::CIANO:
-				sp.Open("img/hex_ciano.png");
+				sp.Open(pathFinal+"/hex_ciano.png");
 				break;
 			case Cor::LARANJA:
-				sp.Open("img/hex_laranja.png");
+				sp.Open(pathFinal+"/hex_laranja.png");
+				break;
+			case Cor::VERDECLARO:
+				sp.Open(pathFinal+"/hex_verde.png");
 				break;
 			default:
 				break;
@@ -87,21 +79,22 @@ void Hex::SetOriginalHeight(int _altura) {
 }
 
 void Hex::UnHighlight() {
+	string pathFinal = "img/" + ArenaState::GetPrefixo();
 	switch (originalColor) {
 			case Cor::AMARELO:
-				sp.Open("img/hex_amarelo.png");
+				sp.Open(pathFinal+"/hex_amarelo.png");
 				break;
 			case Cor::VERMELHO:
-				sp.Open("img/hex_vermelho.png");
+				sp.Open(pathFinal+"/hex_vermelho.png");
 				break;
 			case Cor::VERDE:
-				sp.Open("img/hex_verde.png");
+				sp.Open(pathFinal+"/hex_verde.png");
 				break;
 			case Cor::BEGE:
-				sp.Open("img/hex_bege.png");
+				sp.Open(pathFinal+"/hex_bege.png");
 				break;
 			default:
-				sp.Open("img/hex.png");
+				sp.Open(pathFinal+"/hex.png");
 				break;
 		}
 	color = originalColor;

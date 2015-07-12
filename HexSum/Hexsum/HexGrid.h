@@ -10,6 +10,7 @@
 
 #include <vector>
 #include "Hex.h"
+#include <string>
 
 class HexGrid {
 public:
@@ -26,6 +27,7 @@ public:
 	void GridRender();
 	void UnHighlightAll();
 	bool HexValido(Hex hex);
+
 private:
 	std::vector<Hex> hexagons;
 

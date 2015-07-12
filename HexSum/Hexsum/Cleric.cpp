@@ -83,7 +83,7 @@ void Cleric::PerformSpecialAbility(Hex* hex) {
 }
 void Cleric::ShowSummonRange() {
 	for (int i=0; i<ArenaState::grid->hex_directions.size(); i++) {
-		if (ArenaState::grid->GetNeighbor(*location, i).unit != NULL) {
+		if (ArenaState::grid->GetNeighbor(*location, i).unit != NULL && static_cast<Unit*>(ArenaState::grid->GetNeighbor(*location, i).unit)->owner->color == owner->color) {
 			ArenaState::grid->GetNeighbor(*location, i).Highlight(Constants::SPECIAL_ABILITY_RANGE);
 			highlightedHexs.emplace_back(&ArenaState::grid->GetNeighbor(*location, i));
 		}

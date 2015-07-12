@@ -20,11 +20,8 @@ Unit::Unit(Hex* hex, Player* player) {
 	moveDestination=NULL;
 	endTurnFlag=false;
 	owner=player;
-	spAtual.Open("img/king.png");
 	hex->isEmpty=false;
-
 	hex->unit = this;
-
 	location = hex;
 	box.x = location->center.x-spAtual.GetWidth()/2;
 	box.y = location->center.y-spAtual.GetHeight();
@@ -75,8 +72,6 @@ void Unit::ActionIntent(Action action) {
 		}
 	}
 }
-
-
 void Unit::TakeAction(Action action, Hex* hex) {
 	//if (!unHighlightUnit) { Descomentar para clicar no hex só se a parada tiver descido
 	if (hex != NULL)
@@ -141,10 +136,13 @@ void Unit::AttackUnit(Unit* unit) {
 }
 void Unit::ReceiveDamage(int damage) {
 	SetAnimacao(AnimationType::DAMAGE);
-	if (!hasDivineShield)
+	if (!hasDivineShield) {
 		hp-=damage;
-	else
+	}
+	else {
 		hp-=damage-1;
+		hasDivineShield=false;
+	}
 	if (hp<=0) {
 		ArenaState::turnLogic.RemoveUnit(this);
 		location->isEmpty=true;
@@ -156,10 +154,7 @@ void Unit::ActionSetup() {
 	firstAction=false;
 	ArenaState::grid->UnHighlightAll();
 	for (int i=0; i< ArenaState::turnLogic.allUnits.size(); i++) {
-		//if (ArenaState::turnLogic.allUnits[i]->owner->color == Player::BLUE)
-			ArenaState::turnLogic.allUnits[i]->location->Highlight(static_cast<Hex::Cor>((int)ArenaState::turnLogic.allUnits[i]->owner->color));
-		//else
-		//	ArenaState::turnLogic.allUnits[i]->location->Highlight(Hex::Cor::VERMELHO);
+		ArenaState::turnLogic.allUnits[i]->location->Highlight(static_cast<Hex::Cor>((int)ArenaState::turnLogic.allUnits[i]->owner->color));
 	}
 }
 void Unit::EndTurn() {
@@ -210,8 +205,6 @@ void Unit::Update(float dt){
 				location->height=-15;
 			}
 		}
-
-
 		if (InputManager::GetInstance().KeyPress(SDLK_x)) {
 			ActionIntent(Action::MOVE);
 		}
@@ -245,11 +238,6 @@ void Unit::Update(float dt){
 		box.x = location->center.x-spAtual.GetWidth()/2;
 		box.y = location->center.y-spAtual.GetHeight() + location->height;
 	}
-	//std::cout<<sp.currentFrame<<std::endl;
-
-
-
-
 }
 
 void Unit::SetAnimacao(AnimationType animationType){
@@ -299,8 +287,7 @@ bool Unit::IsDead() {
 	}
 	return false;
 }
-void Unit::NotifyCollision(GameObject& other){
-}
+void Unit::NotifyCollision(GameObject& other){}
 void Unit::PrepareSpecialAbility(){}
 void Unit::PerformSpecialAbility(Hex *hex){}
 void Unit::ShowAttackRange() {
@@ -317,7 +304,7 @@ void Unit::ShowAttackRange() {
 			}
 		}
 	}
-	else if (type == UnitType::RANGED){
+	else if (type == UnitType::RANGED){//TODO: Refatorar rs
 		for (int i=0; i<ArenaState::grid->hex_directions.size(); i++) {
 			bool rangeBlocked=false;
 			if (!ArenaState::grid->GetNeighbor(*location, i).isEmpty)

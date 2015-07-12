@@ -57,8 +57,6 @@ King::King(Hex *hex, Player* player, int initialMana) : Unit(hex, player), mana(
 void King::BeginTurnSetup() {
 	Unit::BeginTurnSetup();
 	mana++;
-	std::cout<<"king setup: mana = "<<mana<<std::endl;
-
 }
 void King::Update(float dt) {
 	Unit::Update(dt);
@@ -84,10 +82,9 @@ void King::PrepareSpecialAbility() {
 }
 void King::PerformSpecialAbility(Hex* hex) {
 	SetAnimacao(AnimationType::CASTING);
-	Unit* archer = new Soldier(hex, owner);
+	Unit* archer = new Cleric(hex, owner);
 	Game::GetInstance()->GetCurrentState().AddObject(archer);
 	ArenaState::turnLogic.allUnits.emplace_back(archer);
-
 }
 void King::ShowSummonRange() {
 	for (int i=0; i<ArenaState::grid->hex_directions.size(); i++) {

@@ -36,8 +36,12 @@ public:
 	static Player* player1;
 	static Player* player2;
 	static TurnLogic turnLogic;
+	static int tipoCampo;
+
+	static string GetPrefixo();
 
 private:
+
 	Sprite bg, bg2, bg3;
 	Sprite card_blue, card_red;
 	Sprite first;

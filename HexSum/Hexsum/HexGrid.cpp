@@ -56,6 +56,7 @@ void HexGrid::PopulateGrid() {
         }
     }
 }
+
 void HexGrid::UnHighlightAll() {
 	for (int i=0; i < (int) hexagons.size() ; i++) {
 		hexagons[i].UnHighlight();

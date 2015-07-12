@@ -23,33 +23,35 @@ Unit* ArenaState::selectedUnit = NULL;
 Player* ArenaState::player1 = NULL;
 Player* ArenaState::player2 = NULL;
 TurnLogic ArenaState::turnLogic;
+int ArenaState::tipoCampo=-1;
 //Timer ArenaState::timerTurno;
 
 ArenaState::ArenaState(int n, int m, StateData stateData) {
-
+	tipoCampo = (int)stateData.campo;
 	player1 = new Player(static_cast<Player::Color>((int)stateData.rei1));
 	player2 = new Player(static_cast<Player::Color>((int)stateData.rei2));
-
 	card_blue = Sprite("img/P1.png",1,0);
 	card_red = Sprite("img/P2.png",1,0);
 	campo = Sprite("img/campo.png",1,0);
 	first = Sprite("img/prima.png",1,0);
-	bg.Open("img/castelo_fundo.png");
-	bg2.Open("img/castelo_baixo.png");
-	bg3.Open("img/castelo_cima.png");
+	bg.Open("img/"+GetPrefixo()+"_fundo.png");
+	switch (tipoCampo) {
+	case 0:
+		bg2.Open("img/floresta_baixo.png");
+		bg3.Open("img/floresta_cima.png");
+		bg.Open("img/fundo_preto.jpg");
+		break;
+	case 1:
+		bg2.Open("img/gelo_baixo.png");
+		bg3.Open("img/gelo_cima.png");
+		bg.Open("img/fundo_preto.jpg");
+		break;
+	case 2:
+		bg2.Open("img/castelo_baixo.png");
+		bg3.Open("img/castelo_cima.png");
+		break;
+	}
 	grid = new HexGrid(n, m);
-
-	//Unit* farmer=new Farmer(&grid->At(0,4), player2);
-	//AddObject(farmer);
-	//turnLogic.allUnits.emplace_back(farmer);
-
-	//Unit* farmer2=new Farmer(&grid->At(-2,4), player2);
-	//AddObject(farmer2);
-	//turnLogic.allUnits.emplace_back(farmer2);
-
-	//Unit* farmer3=new Farmer(&grid->At(2,3), player1);
-	//AddObject(farmer3);
-	//turnLogic.allUnits.emplace_back(farmer3);
 
 	Unit* king = new King(&grid->At(0, 6), player2, 3-1);
 	AddObject(king);
@@ -58,10 +60,6 @@ ArenaState::ArenaState(int n, int m, StateData stateData) {
 	Unit* king2 = new King(&grid->At(0, -6), player1, 3-1);
 	AddObject(king2);
 	turnLogic.allUnits.emplace_back(king2);
-
-	//Unit* archer = new Archer(&grid->At(1,2), player1);
-	//AddObject(archer);
-	//turnLogic.allUnits.emplace_back(archer);
 
 	AddUIElement(new Button(50, 50, "img/button_attack_over.png", "img/button_attack_out.png", &SelectedUnitAttack));
 	AddUIElement(new Button(120, 50, "img/button_pass_over.png", "img/button_pass_out.png", &PassTurn));
@@ -78,7 +76,19 @@ ArenaState::ArenaState(int n, int m, StateData stateData) {
 	//timerTurno = Timer();
 
 }
-
+string ArenaState::GetPrefixo() {
+	switch(tipoCampo) {
+		case 0:
+			return "Floresta";
+			break;
+		case 1:
+			return "Gelo";
+			break;
+		case 2:
+			return "Castelo";
+			break;
+		}
+}
 
 void ArenaState::Setup() {
 	for (int i=0; i<grid->hex_directions.size(); i++) {
@@ -99,12 +109,12 @@ void ArenaState::Setup() {
 	//grid->At(0,(grid->n+grid->m)/2-1).originalColor = Hex::Cor::VERDE;
 //	grid->At(0,-1*((grid->n+grid->m)/2-1)).Highlight(Hex::Cor::VERDE);
 //	grid->At(0,-1*((grid->n+grid->m)/2-1)).originalColor = Hex::Cor::VERDE;
-	for (int i=0; i<turnLogic.allUnits.size(); i++) {
-		if (turnLogic.allUnits[i]->owner->color == Player::RED)
-			turnLogic.allUnits[i]->location->Highlight(Hex::VERMELHO);
-		else
-			turnLogic.allUnits[i]->location->Highlight(Hex::AZUL);
-	}
+	//for (int i=0; i<turnLogic.allUnits.size(); i++) {
+//		if (turnLogic.allUnits[i]->owner->color == Player::RED)
+//			turnLogic.allUnits[i]->location->Highlight(Hex::VERMELHO);
+//		else
+	//		turnLogic.allUnits[i]->location->Highlight(Hex::AZUL);
+//	}
 }
 ArenaState::~ArenaState() {
 	delete grid;

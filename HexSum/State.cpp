@@ -40,7 +40,6 @@ void State::UpdateArray(float dt){
 	for(int i = 0; i < (int) objectArray.size(); i++){
 		objectArray[i]->Update(dt);
 		if(objectArray[i]->IsDead()) {
-			std::cout<<"DESTRUIR LEGAL"<<std::endl;
 			objectArray.erase(objectArray.begin() + i);
 		}
 	}

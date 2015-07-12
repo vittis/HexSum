@@ -35,7 +35,8 @@ public:
 		AMARELO,
 		PADRAO,
 		CIANO,
-		LARANJA
+		LARANJA,
+		VERDECLARO
 	};
 	void Highlight(Cor cor);
 	void UnHighlight();
