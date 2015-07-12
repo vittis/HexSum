@@ -8,6 +8,8 @@
 #ifndef HEXSUM_PLAYER_H_
 #define HEXSUM_PLAYER_H_
 
+#include "../GameObject.h"
+
 class Player {
 public:
 	enum Color{
@@ -18,6 +20,11 @@ public:
 	};
 	Player(Color color);
 	Color color;
+	GameObject *king;
+	void SetKing(GameObject* _king);
+
+
+
 };
 
 

@@ -63,7 +63,7 @@ public:
 	void ReceiveDamage(int damage);
 	virtual void PrepareSpecialAbility();
 	virtual void PerformSpecialAbility(Hex* hex);
-
+	void CaptureTower(Hex* hex);
 	AnimationType actualAnimation;
 	Sprite spAtual;
 	UnitType type;

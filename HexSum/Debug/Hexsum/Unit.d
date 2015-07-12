@@ -57,7 +57,7 @@ Hexsum/Unit.d: ../Hexsum/Unit.cpp ../Hexsum/Unit.h \
  C:\SDL2-2.0.3\include\SDL2/SDL_Mixer.h \
  C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h ../Hexsum/../InputManager.h \
  ../Hexsum/../Camera.h ../Hexsum/../StillAnimation.h \
- ../Hexsum/../Sprite.h ../Hexsum/../Timer.h
+ ../Hexsum/../Sprite.h ../Hexsum/../Timer.h ../Hexsum/Tower.h
 
 ../Hexsum/Unit.h:
 
@@ -222,3 +222,5 @@ C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h:
 ../Hexsum/../Sprite.h:
 
 ../Hexsum/../Timer.h:
+
+../Hexsum/Tower.h:

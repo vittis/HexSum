@@ -13,7 +13,7 @@ Soldier::Soldier(Hex *hex, Player* player) : Unit(hex, player) {
 	if (player->color == Player::BLUE) {
 		sprite_idle = Sprite("img/SoldadoAzul/Stand.png", 37, 0.06);
 		sprite_walking = Sprite("img/SoldadoAzul/Walk.png", 37, 0.03);
-		sprite_attacking = Sprite("img/SoldadoAzul/Attack.png", 37, 0.01);
+		sprite_attacking = Sprite("img/SoldadoAzul/Attack.png", 37, 0.03);
 		sprite_casting = Sprite("img/SoldadoAzul/Attack.png", 37, 0.03);
 		sprite_damage = Sprite("img/SoldadoAzul/Damage.png", 37, 0.03);
 		card = Sprite("img/Main UI cortada/Fotos/soldier_blue.png",1,0);

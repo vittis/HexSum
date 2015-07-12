@@ -57,7 +57,7 @@ Hexsum/ArenaState.d: ../Hexsum/ArenaState.cpp ../Hexsum/ArenaState.h \
  C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h ../Hexsum/../InputManager.h \
  ../Hexsum/../Camera.h ../Hexsum/Archer.h ../Hexsum/Soldier.h \
  ../Hexsum/MenuState.h ../Hexsum/SelectState.h ../Hexsum/Image.h \
- ../Hexsum/Constants.h
+ ../Hexsum/Constants.h ../Hexsum/Tower.h
 
 ../Hexsum/ArenaState.h:
 
@@ -226,3 +226,5 @@ C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h:
 ../Hexsum/Image.h:
 
 ../Hexsum/Constants.h:
+
+../Hexsum/Tower.h:

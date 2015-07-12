@@ -25,6 +25,7 @@ public:
 	bool operator == (const Hex& a);
 	bool operator != (const Hex& a);
 	bool isEmpty;
+	bool isTower;
 	Point center;
 	enum Cor {
 		VERMELHO,
@@ -46,6 +47,7 @@ public:
 	Rect box;
 
 	GameObject *unit;
+	GameObject *tower;
 	float height;
 	float originalHeight;
 	Sprite sp;

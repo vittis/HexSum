@@ -21,6 +21,7 @@ public:
 	};
 	SummonManager(Unit* king);
 	void SummonUnit(TipoUnidade tipoUnidade, Hex* hex, Player* player);
+	int GetCustoManaUnidade(int tipoUnidade);
 private:
 	Unit* king;
 };

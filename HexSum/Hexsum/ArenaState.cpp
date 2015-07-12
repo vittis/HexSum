@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include "MenuState.h"
 #include "Constants.h"
+#include "Tower.h"
 
 HexGrid* ArenaState::grid = NULL;
 Unit* ArenaState::selectedUnit = NULL;
@@ -134,15 +135,25 @@ void ArenaState::Setup() {
 		grid->GetNeighbor(grid->At(0,0), i).SetOriginalHeight(-15);
 		grid->GetNeighbor(grid->At(0,0), i).isEmpty=false;
 	}
+//	AddObject(new Tower(&grid->At(0,0)));
+
 	grid->At(grid->m/2,grid->m/2).Highlight(Hex::Cor::BEGE);
 	grid->At(grid->m/2,grid->m/2).originalColor = Hex::Cor::BEGE;
+	AddObject(new Tower(&grid->At(grid->m/2,grid->m/2)));
+
 	grid->At(-grid->m/2,-grid->m/2).Highlight(Hex::Cor::BEGE);
 	grid->At(-grid->m/2,-grid->m/2).originalColor = Hex::Cor::BEGE;
+	AddObject(new Tower(&grid->At(-grid->m/2,-grid->m/2)));
+
 
 	grid->At(-1*(grid->n/2 + 1),grid->m).Highlight(Hex::Cor::BEGE);
 	grid->At(-1*(grid->n/2 + 1),grid->m).originalColor = Hex::Cor::BEGE;
+	AddObject(new Tower(&grid->At(-1*(grid->n/2 + 1),grid->m)));
+
+
 	grid->At((grid->n/2 + 1),-grid->m).Highlight(Hex::Cor::BEGE);
 	grid->At((grid->n/2 + 1),-grid->m).originalColor = Hex::Cor::BEGE;
+	AddObject(new Tower(&grid->At((grid->n/2 + 1),-grid->m)));
 
 }
 ArenaState::~ArenaState() {
@@ -222,9 +233,12 @@ void ArenaState::Render(){
 	for (int i=0; i< grid->size(); i++) {
 			if (grid->At(i).unit != NULL)
 				grid->At(i).unit->Render();
+			if (grid->At(i).tower != NULL)
+				grid->At(i).tower->Render();
 		}
+
 	for (int i =0; i < objectArray.size(); i++) {
-		if (objectArray[i].get()->Is("StillAnimation"))
+		if (objectArray[i].get()->Is("StillAnimation") /*|| objectArray[i].get()->Is("Tower")*/)
 			objectArray[i].get()->Render();
 	}
 

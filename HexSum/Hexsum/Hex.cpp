@@ -15,9 +15,11 @@
 
 Hex::Hex(int q, int r): q(q), r(r), originalColor(Cor::PADRAO) {
 	unit = NULL;
+	tower = NULL;
 	SetOriginalHeight(0);
 	color = Hex::PADRAO;
 	isEmpty=true;
+	isTower=false;
 	sp.SetScaleX(0.4);
 	sp.SetScaleY(0.4);
 	if (q == 0 && r ==0) {
@@ -88,10 +90,16 @@ void Hex::UnHighlight() {
 				sp.Open(pathFinal+"/hex_vermelho.png");
 				break;
 			case Cor::VERDE:
-				sp.Open(pathFinal+"/hex_verde.png");
+				sp.Open(pathFinal+"/hex_verdeclaro.png");
 				break;
 			case Cor::BEGE:
 				sp.Open(pathFinal+"/hex_bege.png");
+				break;
+			case Cor::ROXO:
+				sp.Open(pathFinal+"/hex_roxo.png");
+				break;
+			case Cor::AZUL:
+				sp.Open(pathFinal+"/hex_azul.png");
 				break;
 			default:
 				sp.Open(pathFinal+"/hex.png");

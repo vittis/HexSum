@@ -12,11 +12,21 @@
 #include "Archer.h"
 #include "Soldier.h"
 #include "Cleric.h"
+#include "Constants.h"
 
 SummonManager::SummonManager(Unit* king) {
 	this->king = king;
 }
+int SummonManager::GetCustoManaUnidade(int tipoUnidade) {
+	if (tipoUnidade==0)
+		return Constants::custoManaSoldier;
+	else if (tipoUnidade==1)
+		return Constants::custoManaCleric;
+	else if (tipoUnidade == 2)
+		return Constants::custoManaArcher;
 
+	return -1;
+}
 void SummonManager::SummonUnit(TipoUnidade tipoUnidade, Hex* hex, Player* player) {
 	Unit* unit;
 	switch (tipoUnidade) {

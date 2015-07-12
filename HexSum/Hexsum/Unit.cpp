@@ -11,6 +11,7 @@
 #include "Constants.h"
 #include "../Game.h"
 #include "../StillAnimation.h"
+#include "Tower.h"
 
 Unit::Unit(Hex* hex, Player* player) {
 	hasDivineShield=false;
@@ -44,8 +45,13 @@ void Unit::MoveTo(Hex* hex) {
 }
 void Unit::ShowMovimentRange() {
 	for (int i=0; i<ArenaState::grid->hex_directions.size(); i++) {
-		if (ArenaState::grid->GetNeighbor(*location, i).isEmpty) {
-			ArenaState::grid->GetNeighbor(*location, i).Highlight(Constants::MOVE_RANGE);
+		if (ArenaState::grid->GetNeighbor(*location, i).isEmpty || ArenaState::grid->GetNeighbor(*location, i).isTower) {
+			if (ArenaState::grid->GetNeighbor(*location, i).isEmpty) {
+				ArenaState::grid->GetNeighbor(*location, i).Highlight(Constants::MOVE_RANGE);
+			}
+			if (ArenaState::grid->GetNeighbor(*location, i).isTower) {
+				ArenaState::grid->GetNeighbor(*location, i).Highlight(static_cast<Hex::Cor>((int)owner->color));
+			}
 			highlightedHexs.emplace_back(&ArenaState::grid->GetNeighbor(*location, i));
 		}
 	}
@@ -72,6 +78,9 @@ void Unit::ActionIntent(Action action) {
 		}
 	}
 }
+void Unit::CaptureTower(Hex* hex) {
+	static_cast<Tower*>(hex->tower)->BeCaptured(owner);
+}
 void Unit::TakeAction(Action action, Hex* hex) {
 	//if (!unHighlightUnit) { Descomentar para clicar no hex só se a parada tiver descido
 	if (hex != NULL)
@@ -82,8 +91,14 @@ void Unit::TakeAction(Action action, Hex* hex) {
 		switch (action) {
 			case Action::MOVE:
 				if (ap >= 1) {
-					MoveTo(hex);
-					ap--;
+					if (hex->isEmpty) {
+						MoveTo(hex);
+						ap--;
+					}
+					else if (hex->isTower) {
+						CaptureTower(hex);
+						ap--;
+					}
 				}
 				break;
 			case Action::ATTACK:
@@ -221,6 +236,18 @@ void Unit::Update(float dt){
 						case Constants::MOVE_RANGE:
 							TakeAction(Action::MOVE, highlightedHexs[i]);
 							break;
+						case Hex::ROXO:
+							TakeAction(Action::MOVE, highlightedHexs[i]);
+							break;
+						case Hex::AZUL:
+							TakeAction(Action::MOVE, highlightedHexs[i]);
+							break;
+						case Hex::VERMELHO:
+							TakeAction(Action::MOVE, highlightedHexs[i]);
+							break;
+						case Hex::VERDE:
+							TakeAction(Action::MOVE, highlightedHexs[i]);
+							break;
 						case Constants::ATTACK_UNIT:
 							TakeAction(Action::ATTACK, highlightedHexs[i]);
 							break;
@@ -256,6 +283,8 @@ void Unit::SetAnimacao(AnimationType animationType){
 		spAtual = sprite_walking;
 		if (Is("Soldier"))
 			spAtual.SetFrame(25);
+		else if (Is("Cleric"))
+			spAtual.SetFrame(20);
 	}
 }
 
