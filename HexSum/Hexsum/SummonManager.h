@@ -10,6 +10,7 @@
 
 #include "Hex.h"
 #include "Player.h"
+#include "Unit.h"
 
 class SummonManager {
 public:
@@ -18,8 +19,10 @@ public:
 		CLERIGO,
 		ARCHER
 	};
+	SummonManager(Unit* king);
 	void SummonUnit(TipoUnidade tipoUnidade, Hex* hex, Player* player);
-
+private:
+	Unit* king;
 };
 
 

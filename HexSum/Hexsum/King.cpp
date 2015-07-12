@@ -15,6 +15,7 @@
 #include "Soldier.h"
 
 King::King(Hex *hex, Player* player, int initialMana) : Unit(hex, player), mana(initialMana) {
+	summonManager = new SummonManager(this);
 	switch (player->color) {
 	case Player::BLUE:
 		sprite_idle = Sprite("img/KingAzul/parado.png", 37, 0.06);
@@ -22,6 +23,7 @@ King::King(Hex *hex, Player* player, int initialMana) : Unit(hex, player), mana(
 		sprite_attacking = Sprite("img/KingAzul/ataque.png", 37, 0.03);
 		sprite_casting = Sprite("img/KingAzul/cast.png", 37, 0.03);
 		sprite_damage = Sprite("img/KingAzul/dano.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/king_blue.png",1,0);
 		break;
 	case Player::RED:
 		sprite_idle = Sprite("img/KingVermelho/parado.png", 37, 0.06);
@@ -29,6 +31,7 @@ King::King(Hex *hex, Player* player, int initialMana) : Unit(hex, player), mana(
 		sprite_attacking = Sprite("img/KingVermelho/ataque.png", 37, 0.03);
 		sprite_casting = Sprite("img/KingVermelho/cast.png", 37, 0.03);
 		sprite_damage = Sprite("img/KingVermelho/dano.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/king_red.png",1,0);
 		break;
 	case Player::GREEN:
 		sprite_idle = Sprite("img/KingVerde/parado.png", 37, 0.06);
@@ -36,6 +39,7 @@ King::King(Hex *hex, Player* player, int initialMana) : Unit(hex, player), mana(
 		sprite_attacking = Sprite("img/KingVerde/ataque.png", 37, 0.03);
 		sprite_casting = Sprite("img/KingVerde/cast.png", 37, 0.03);
 		sprite_damage = Sprite("img/KingVerde/dano.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/king_green.png",1,0);
 		break;
 	case Player::PURPLE:
 		sprite_idle = Sprite("img/KingRoxo/parado.png", 37, 0.06);
@@ -43,9 +47,10 @@ King::King(Hex *hex, Player* player, int initialMana) : Unit(hex, player), mana(
 		sprite_attacking = Sprite("img/KingRoxo/ataque.png", 37, 0.03);
 		sprite_casting = Sprite("img/KingRoxo/cast.png", 37, 0.03);
 		sprite_damage = Sprite("img/KingRoxo/dano.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/king_purple.png",1,0);
 		break;
 	}
-	card = Sprite("img/card_farmer.jpg",1,0);
+
 	spAtual = sprite_idle;
 	hp=5;
 	atk=1;
@@ -68,7 +73,7 @@ void King::Update(float dt) {
 			for (int i=0; i<highlightedHexs.size(); i++) {
 				if (highlightedHexs[i]->box.IsInside((float)InputManager::GetInstance().GetMouseX(), (float)InputManager::GetInstance().GetMouseY())) {
 					switch (highlightedHexs[i]->color) {
-						case Constants::SPECIAL_ABILITY_RANGE:
+						case Constants::SPECIAL_ABILITY_RANGE://TODO: checar mana atual p sumona, arenastate::summonSelecionado
 							TakeAction(Action::SPECIAL_ABILITY, highlightedHexs[i]);
 							break;
 						}
@@ -82,9 +87,7 @@ void King::PrepareSpecialAbility() {
 }
 void King::PerformSpecialAbility(Hex* hex) {
 	SetAnimacao(AnimationType::CASTING);
-	Unit* archer = new Cleric(hex, owner);
-	Game::GetInstance()->GetCurrentState().AddObject(archer);
-	ArenaState::turnLogic.allUnits.emplace_back(archer);
+	summonManager->SummonUnit(static_cast<SummonManager::TipoUnidade>(ArenaState::summonSelecionado), hex, owner);
 }
 void King::ShowSummonRange() {
 	for (int i=0; i<ArenaState::grid->hex_directions.size(); i++) {

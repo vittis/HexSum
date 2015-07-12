@@ -51,7 +51,7 @@ Hexsum/Soldier.d: ../Hexsum/Soldier.cpp ../Hexsum/Soldier.h \
  ../Hexsum/../Text.h C:\SDL2-2.0.3\include\SDL2/SDL_ttf.h \
  ../Hexsum/HexGrid.h ../Hexsum/../Color.h ../Hexsum/TurnLogic.h \
  ../Hexsum/Button.h ../Hexsum/UIElement.h ../Hexsum/King.h \
- ../Hexsum/StateData.h ../Hexsum/Constants.h
+ ../Hexsum/SummonManager.h ../Hexsum/StateData.h ../Hexsum/Constants.h
 
 ../Hexsum/Soldier.h:
 
@@ -188,6 +188,8 @@ C:\SDL2-2.0.3\include\SDL2/SDL_ttf.h:
 ../Hexsum/UIElement.h:
 
 ../Hexsum/King.h:
+
+../Hexsum/SummonManager.h:
 
 ../Hexsum/StateData.h:
 

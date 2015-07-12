@@ -17,6 +17,7 @@
 #include "King.h"
 #include <stdio.h>
 #include "MenuState.h"
+#include "Constants.h"
 
 HexGrid* ArenaState::grid = NULL;
 Unit* ArenaState::selectedUnit = NULL;
@@ -24,16 +25,25 @@ Player* ArenaState::player1 = NULL;
 Player* ArenaState::player2 = NULL;
 TurnLogic ArenaState::turnLogic;
 int ArenaState::tipoCampo=-1;
+bool ArenaState::passou = false;
 //Timer ArenaState::timerTurno;
+int ArenaState::summonSelecionado=0;
 
 ArenaState::ArenaState(int n, int m, StateData stateData) {
 	tipoCampo = (int)stateData.campo;
 	player1 = new Player(static_cast<Player::Color>((int)stateData.rei1));
 	player2 = new Player(static_cast<Player::Color>((int)stateData.rei2));
-	card_blue = Sprite("img/P1.png",1,0);
-	card_red = Sprite("img/P2.png",1,0);
-	campo = Sprite("img/campo.png",1,0);
-	first = Sprite("img/prima.png",1,0);
+
+
+	timerAmpulheta = Timer();
+
+	timeLine = Sprite("img/Main UI cortada/Timeline/timeline.png", 1,0);
+	ampulheta = Sprite("img/Main UI cortada/Timeline/hourglass_anim.png", 10, 0);
+	painel_esquerda = Sprite("img/Main UI cortada/Card/card_alt.png", 1,0);
+	painel_esquerda.SetFlipped(true);
+	painel_direita = Sprite("img/Main UI cortada/Card/card_alt.png", 1,0);
+	bandeira = Sprite("img/Main UI cortada/Card/bandeira_red.png", 1,0);
+
 	bg.Open("img/"+GetPrefixo()+"_fundo.png");
 	switch (tipoCampo) {
 	case 0:
@@ -51,30 +61,59 @@ ArenaState::ArenaState(int n, int m, StateData stateData) {
 		bg3.Open("img/castelo_cima.png");
 		break;
 	}
+
+	AddUIElement(new Button(125, 51, "img/Main UI cortada/Botoes/menu_button_hover.png","img/Main UI cortada/Botoes/menu_button.png",  NULL)) ;
+	AddUIElement(new Button(50, 114, "img/Main UI cortada/Botoes/pause_button_hover.png","img/Main UI cortada/Botoes/pause_button.png",  NULL)) ;
+	AddUIElement(new Button(127, 114, "img/Main UI cortada/Botoes/sound_button_hover.png","img/Main UI cortada/Botoes/sound_button.png",  NULL)) ;
+	AddUIElement(new Button(196, 114, "img/Main UI cortada/Botoes/help_button_hover.png","img/Main UI cortada/Botoes/help_button.png",  NULL)) ;
+
 	grid = new HexGrid(n, m);
 
-	Unit* king = new King(&grid->At(0, 6), player2, 3-1);
+	Unit* king = new King(&grid->At(0, 6), player1, Constants::manaInicial);
 	AddObject(king);
 	turnLogic.allUnits.emplace_back(king);
 
-	Unit* king2 = new King(&grid->At(0, -6), player1, 3-1);
+	Unit* king2 = new King(&grid->At(0, -6), player2, Constants::manaInicial);
 	AddObject(king2);
 	turnLogic.allUnits.emplace_back(king2);
 
-	AddUIElement(new Button(50, 50, "img/button_attack_over.png", "img/button_attack_out.png", &SelectedUnitAttack));
-	AddUIElement(new Button(120, 50, "img/button_pass_over.png", "img/button_pass_out.png", &PassTurn));
+	attackButton = new Button(50, 558, "img/Main UI cortada/Botoes/attack_hover.png", "img/Main UI cortada/Botoes/attack.png", &SelectedUnitAttack);
+	moveButton = new Button(126, 514, "img/Main UI cortada/Botoes/move_hover.png", "img/Main UI cortada/Botoes/move.png", &SelectedUnitMove);
+	spellButton = new Button(203, 558, "img/Main UI cortada/Botoes/spell_hover.png", "img/Main UI cortada/Botoes/spell.png", &SelectedUnitSpell);
+	passButton = new Button(279, 514, "img/Main UI cortada/Botoes/pass_hover.png", "img/Main UI cortada/Botoes/pass.png", &PassTurn);
+
+	archerButton = new Button(906, 668, "img/Main UI cortada/Fotos/archer.png", "img/Main UI cortada/Fotos/archer.png", &SelectArcher);
+	soldierButton = new Button(1045, 668, "img/Main UI cortada/Fotos/soldier.png", "img/Main UI cortada/Fotos/soldier.png", &SelectSoldier);
+	clericButton = new Button(1177, 668, "img/Main UI cortada/Fotos/cleric.png", "img/Main UI cortada/Fotos/cleric.png", &SelectCleric);
+
+
+	AddUIElement(attackButton);
+	AddUIElement(passButton);
+	AddUIElement(moveButton);
+	AddUIElement(spellButton);
+	AddUIElement(archerButton);
+	AddUIElement(soldierButton);
+	AddUIElement(clericButton);
+
 	Setup();
 	turnLogic.PassTurnToNextUnit();
 
-	ap = new Text("font/teste.TTF", 16, TextStyle::SOLID, " ", Color::GetColor(0,255,0,0), 100, 600);
-	hp = new Text("font/teste.TTF", 16, TextStyle::SOLID, " ", Color::GetColor(0,255,255,0), 100,620);
-	atk = new Text("font/teste.TTF", 16, TextStyle::SOLID, " ", Color::GetColor(255,0,255,0), 100, 640);
-	mana = new Text("font/teste.TTF", 16, TextStyle::SOLID, " ", Color::GetColor(255,0,255,0), 100, 660);
+	hp = new Text("font/mask.ttf", 25, TextStyle::BLENDED, " ", Color::GetColor(0,0,0,0), 10, 650);
+	ap = new Text("font/mask.ttf", 26, TextStyle::BLENDED, " ", Color::GetColor(0,0,0,0), 200, 635);
+	atk = new Text("font/mask.ttf", 26, TextStyle::BLENDED, " ", Color::GetColor(0,0,0,0), 200, 665);
+	mana = new Text("font/mask.ttf", 26, TextStyle::BLENDED, " ", Color::GetColor(0,0,0,0), 200, 695);
 
 	//time = new Text("font/teste.TTF", 16, TextStyle::SOLID, " ", Color::GetColor(255,0,255,0), 100, 660);
-
 	//timerTurno = Timer();
-
+}
+void ArenaState::SelectArcher() {
+	summonSelecionado=2;
+}
+void ArenaState::SelectCleric() {
+	summonSelecionado=1;
+}
+void ArenaState::SelectSoldier() {
+	summonSelecionado=0;
 }
 string ArenaState::GetPrefixo() {
 	switch(tipoCampo) {
@@ -105,30 +144,33 @@ void ArenaState::Setup() {
 	grid->At((grid->n/2 + 1),-grid->m).Highlight(Hex::Cor::BEGE);
 	grid->At((grid->n/2 + 1),-grid->m).originalColor = Hex::Cor::BEGE;
 
-	//grid->At(0,(grid->n+grid->m)/2-1).Highlight(Hex::Cor::VERDE);
-	//grid->At(0,(grid->n+grid->m)/2-1).originalColor = Hex::Cor::VERDE;
-//	grid->At(0,-1*((grid->n+grid->m)/2-1)).Highlight(Hex::Cor::VERDE);
-//	grid->At(0,-1*((grid->n+grid->m)/2-1)).originalColor = Hex::Cor::VERDE;
-	//for (int i=0; i<turnLogic.allUnits.size(); i++) {
-//		if (turnLogic.allUnits[i]->owner->color == Player::RED)
-//			turnLogic.allUnits[i]->location->Highlight(Hex::VERMELHO);
-//		else
-	//		turnLogic.allUnits[i]->location->Highlight(Hex::AZUL);
-//	}
 }
 ArenaState::~ArenaState() {
 	delete grid;
 }
 
 void ArenaState::Update(float dt) {
-	//std::cout<<InputManager::GetInstance().GetMouseX()<<", "<<InputManager::GetInstance().GetMouseY()<<std::endl;
-
 	//timerTurno.Update(dt);
+
+	if(ArenaState::passou == true){
+
+		timerAmpulheta.Update(dt);
+		ampulheta.SetFrameTime(0.05);
+		if(timerAmpulheta.Get() >= 0.6){
+			ArenaState::passou = false;
+			timerAmpulheta.Restart();
+		}
+	}else{
+		ampulheta.SetFrame(9);
+		ampulheta.SetFrameTime(0);
+	}
+
 	ap->SetText(MakeText("Ap: ", selectedUnit->ap));
-	hp->SetText(MakeText("Hp: ", selectedUnit->hp));
+	hp->SetText(MakeText("hp: ", selectedUnit->hp));
 	atk->SetText(MakeText("Atk: ", selectedUnit->atk));
+
 	if (selectedUnit->Is("King"))
-		atk->SetText(MakeText("Mana: ", static_cast<King*>(selectedUnit)->mana));
+		mana->SetText(MakeText("Mana: ", static_cast<King*>(selectedUnit)->mana));
 
 	//if(10000-timerTurno.Get() < 0){
 	//	PassTurn();
@@ -136,6 +178,17 @@ void ArenaState::Update(float dt) {
 	//	time->SetText(MakeText("Time: ", 1000-timerTurno.Get()));
 	//}
 
+	if(selectedUnit->owner->color == Player::RED){
+		bandeira.Open("img/Main UI cortada/Card/bandeira_red.png");
+	}else if(selectedUnit->owner->color == Player::BLUE){
+		bandeira.Open("img/Main UI cortada/Card/bandeira_blue.png");
+	}else if(selectedUnit->owner->color == Player::GREEN){
+		bandeira.Open("img/Main UI cortada/Card/bandeira_green.png");
+	}else if(selectedUnit->owner->color == Player::PURPLE){
+		bandeira.Open("img/Main UI cortada/Card/bandeira_purple.png");
+	}
+
+ampulheta.Update(dt);
 	grid->GridUpdate();
 	UpdateArray(dt);
 	UpdateUIArray(dt);
@@ -147,45 +200,47 @@ void ArenaState::Render(){
 	for (int i=0; i< grid->size(); i++) {
 		grid->At(i).Render();
 	}
-	for (int i=0; i< grid->size(); i++) {
-		if (grid->At(i).unit != NULL)
-			grid->At(i).unit->Render();
-	}
+
 	bg2.Render(0, 404, 0);
 
+	timeLine.Render(415,45,0);
 
-	campo.Render(580,640,0);
+	for(int i = turnLogic.indice; i < turnLogic.allUnits.size(); i++){
+		if(turnLogic.allUnits.size() > 8)
+			turnLogic.allUnits[i]->card.Render(445+(i-(turnLogic.indice))*790/(turnLogic.allUnits.size()+1), 10,0);
+		else
+			turnLogic.allUnits[i]->card.Render(445+(i-(turnLogic.indice))*790/8, 10,0);
+	}
 
-	for (int i =0; i< objectArray.size(); i++) {
+	for(int i = 0; i < turnLogic.indice; i++){
+		if(turnLogic.allUnits.size() > 8)
+			turnLogic.allUnits[i]->card.Render(445+(turnLogic.allUnits.size()-1-(turnLogic.indice-(i+1)))*790/(turnLogic.allUnits.size()+1), 10,0);
+		else
+			turnLogic.allUnits[i]->card.Render(445+(turnLogic.allUnits.size()-1-(turnLogic.indice-(i+1)))*790/8, 10,0);
+	}
+
+	for (int i=0; i< grid->size(); i++) {
+			if (grid->At(i).unit != NULL)
+				grid->At(i).unit->Render();
+		}
+	for (int i =0; i < objectArray.size(); i++) {
 		if (objectArray[i].get()->Is("StillAnimation"))
 			objectArray[i].get()->Render();
 	}
 
-	for(int i = turnLogic.indice; i < turnLogic.allUnits.size(); i++){
-		turnLogic.allUnits[i]->card.Render(600+(i-(turnLogic.indice))*600/turnLogic.allUnits.size(), 650,0);
-
-		if(turnLogic.allUnits[i]->owner->color == Player::BLUE){
-			card_blue.Render(600+(i-(turnLogic.indice))*600/turnLogic.allUnits.size(),650,0);
-		}else{
-			card_red.Render(600+(i-(turnLogic.indice))*600/turnLogic.allUnits.size(),650,0);
-		}
-	}
-
-	for(int i = 0; i < turnLogic.indice; i++){
-		turnLogic.allUnits[i]->card.Render(600+(turnLogic.allUnits.size()-1-(turnLogic.indice-(i+1)))*600/turnLogic.allUnits.size(), 650,0);
-
-		if(turnLogic.allUnits[i]->owner->color == Player::BLUE){
-			card_blue.Render(600+(turnLogic.allUnits.size()-1-(turnLogic.indice-(i+1)))*600/turnLogic.allUnits.size(), 650,0);
-		}else{
-			card_red.Render(600+(turnLogic.allUnits.size()-1-(turnLogic.indice-(i+1)))*600/turnLogic.allUnits.size(), 650,0);
-		}
-	}
-
-	first.Render(600,650,0);
+	ampulheta.Render(300,21,0);
+	painel_direita.Render(735,600,0);
+	painel_esquerda.Render(0,600,0);
+	bandeira.Render(315,585,0);
+	selectedUnit->card.Render(70,625,0);
 
 	ap->Render(0,0);
 	hp->Render(0,0);
 	atk->Render(0,0);
+
+	if (selectedUnit->Is("King")){
+		mana->Render(0,0);
+	}
 	//time->Render(100,660);
 
 	RenderUIArray();
@@ -200,8 +255,20 @@ void ArenaState::SelectedUnitAttack(){
 	ArenaState::selectedUnit->ActionIntent(ArenaState::selectedUnit->Action::ATTACK);
 }
 
+void ArenaState::SelectedUnitMove(){
+	ArenaState::selectedUnit->ActionIntent(ArenaState::selectedUnit->Action::MOVE);
+}
+
+void ArenaState::SelectedUnitSpell(){
+	ArenaState::selectedUnit->ActionIntent(ArenaState::selectedUnit->Action::SPECIAL_ABILITY);
+}
+
+
 void ArenaState::PassTurn(){
 	ArenaState::selectedUnit->ActionIntent(ArenaState::selectedUnit->Action::PASS);
+	ArenaState::passou = true;
+
+
 	//timerTurno.Restart();
 }
 

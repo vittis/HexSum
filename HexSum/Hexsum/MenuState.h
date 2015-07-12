@@ -8,7 +8,7 @@
 #ifndef HEXSUM_MENUSTATE_H_
 #define HEXSUM_MENUSTATE_H_
 #include "../State.h"
-#include "SelectReiState.h"
+#include "SelectState.h"
 #include "Image.h"
 #include "Button.h"
 #include "../Sprite.h"

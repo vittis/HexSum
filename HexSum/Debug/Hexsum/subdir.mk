@@ -14,8 +14,7 @@ CPP_SRCS += \
 ../Hexsum/King.cpp \
 ../Hexsum/MenuState.cpp \
 ../Hexsum/Player.cpp \
-../Hexsum/SelectCampoState.cpp \
-../Hexsum/SelectReiState.cpp \
+../Hexsum/SelectState.cpp \
 ../Hexsum/Soldier.cpp \
 ../Hexsum/StateData.cpp \
 ../Hexsum/SummonManager.cpp \
@@ -34,8 +33,7 @@ OBJS += \
 ./Hexsum/King.o \
 ./Hexsum/MenuState.o \
 ./Hexsum/Player.o \
-./Hexsum/SelectCampoState.o \
-./Hexsum/SelectReiState.o \
+./Hexsum/SelectState.o \
 ./Hexsum/Soldier.o \
 ./Hexsum/StateData.o \
 ./Hexsum/SummonManager.o \
@@ -54,8 +52,7 @@ CPP_DEPS += \
 ./Hexsum/King.d \
 ./Hexsum/MenuState.d \
 ./Hexsum/Player.d \
-./Hexsum/SelectCampoState.d \
-./Hexsum/SelectReiState.d \
+./Hexsum/SelectState.d \
 ./Hexsum/Soldier.d \
 ./Hexsum/StateData.d \
 ./Hexsum/SummonManager.d \

@@ -19,6 +19,7 @@ Cleric::Cleric(Hex* hex, Player* player) : Unit(hex, player){
 		sprite_attacking = Sprite("img/ClerigoAzul/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/ClerigoAzul/Cast.png", 37, 0.03);
 		sprite_damage = Sprite("img/ClerigoAzul/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/cleric_blue.png",1,0);
 	}
 	else if (player->color == Player::RED) {
 		sprite_idle = Sprite("img/ClerigoVermelho/Stand.png", 37, 0.06);
@@ -26,6 +27,7 @@ Cleric::Cleric(Hex* hex, Player* player) : Unit(hex, player){
 		sprite_attacking = Sprite("img/ClerigoVermelho/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/ClerigoVermelho/Cast.png", 37, 0.03);
 		sprite_damage = Sprite("img/ClerigoVermelho/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/cleric_red.png",1,0);
 	}
 	else if (player->color == Player::GREEN) {
 		sprite_idle = Sprite("img/ClerigoVerde/Stand.png", 37, 0.06);
@@ -33,6 +35,7 @@ Cleric::Cleric(Hex* hex, Player* player) : Unit(hex, player){
 		sprite_attacking = Sprite("img/ClerigoVerde/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/ClerigoVerde/Cast.png", 37, 0.03);
 		sprite_damage = Sprite("img/ClerigoVerde/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/cleric_green.png",1,0);
 	}
 	else if (player->color == Player::PURPLE) {
 		sprite_idle = Sprite("img/ClerigoRoxo/Stand.png", 37, 0.06);
@@ -40,9 +43,9 @@ Cleric::Cleric(Hex* hex, Player* player) : Unit(hex, player){
 		sprite_attacking = Sprite("img/ClerigoRoxo/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/ClerigoRoxo/Cast.png", 37, 0.03);
 		sprite_damage = Sprite("img/ClerigoRoxo/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/cleric_purple.png",1,0);
 	}
 
-	card = Sprite("img/card_archer.jpg",1,0);
 	spAtual = sprite_idle;
 	hp=3;
 	atk=1;

@@ -16,6 +16,7 @@ Soldier::Soldier(Hex *hex, Player* player) : Unit(hex, player) {
 		sprite_attacking = Sprite("img/SoldadoAzul/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/SoldadoAzul/Attack.png", 37, 0.03);
 		sprite_damage = Sprite("img/SoldadoAzul/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/soldier_blue.png",1,0);
 	}
 	else if (player->color == Player::RED) {
 		sprite_idle = Sprite("img/SoldadoVermelho/Stand.png", 37, 0.06);
@@ -23,6 +24,7 @@ Soldier::Soldier(Hex *hex, Player* player) : Unit(hex, player) {
 		sprite_attacking = Sprite("img/SoldadoVermelho/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/SoldadoVermelho/Attack.png", 37, 0.03);
 		sprite_damage = Sprite("img/SoldadoVermelho/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/soldier_red.png",1,0);
 	}
 	else if (player->color == Player::GREEN) {
 		sprite_idle = Sprite("img/SoldadoVerde/Stand.png", 37, 0.06);
@@ -30,6 +32,7 @@ Soldier::Soldier(Hex *hex, Player* player) : Unit(hex, player) {
 		sprite_attacking = Sprite("img/SoldadoVerde/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/SoldadoVerde/Attack.png", 37, 0.03);
 		sprite_damage = Sprite("img/SoldadoVerde/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/soldier_green.png",1,0);
 	}
 	else if (player->color == Player::PURPLE) {
 		sprite_idle = Sprite("img/SoldadoRoxo/Stand.png", 37, 0.06);
@@ -37,8 +40,9 @@ Soldier::Soldier(Hex *hex, Player* player) : Unit(hex, player) {
 		sprite_attacking = Sprite("img/SoldadoRoxo/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/SoldadoRoxo/Attack.png", 37, 0.03);
 		sprite_damage = Sprite("img/SoldadoRoxo/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/soldier_purple.png",1,0);
 	}
-	card = Sprite("img/card_farmer.jpg",1,0);
+
 	spAtual = sprite_idle;
 	hp=3;
 	atk=2;

@@ -255,7 +255,7 @@ void Unit::SetAnimacao(AnimationType animationType){
 	if (animationType == AnimationType::MOVING){
 		spAtual = sprite_walking;
 		if (Is("Soldier"))
-			spAtual.SetFrame(12);
+			spAtual.SetFrame(25);
 	}
 }
 

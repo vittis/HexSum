@@ -50,13 +50,14 @@ Hexsum/ArenaState.d: ../Hexsum/ArenaState.cpp ../Hexsum/ArenaState.h \
  ../Hexsum/../Geometry.h ../Hexsum/../GameObject.h ../Hexsum/Unit.h \
  ../Hexsum/Player.h ../Hexsum/../Timer.h ../Hexsum/../Color.h \
  ../Hexsum/TurnLogic.h ../Hexsum/Button.h ../Hexsum/UIElement.h \
- ../Hexsum/King.h ../Hexsum/StateData.h ../Hexsum/../InputManager.h \
- ../Hexsum/../Game.h ../Hexsum/../State.h ../Hexsum/../Resources.h \
- ../Hexsum/../Game.h C:\SDL2-2.0.3\include\SDL2/SDL_Mixer.h \
+ ../Hexsum/King.h ../Hexsum/SummonManager.h ../Hexsum/StateData.h \
+ ../Hexsum/../InputManager.h ../Hexsum/../Game.h ../Hexsum/../State.h \
+ ../Hexsum/../Resources.h ../Hexsum/../Game.h \
+ C:\SDL2-2.0.3\include\SDL2/SDL_Mixer.h \
  C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h ../Hexsum/../InputManager.h \
  ../Hexsum/../Camera.h ../Hexsum/Archer.h ../Hexsum/Soldier.h \
- ../Hexsum/MenuState.h ../Hexsum/SelectReiState.h ../Hexsum/Image.h \
- ../Hexsum/SelectCampoState.h
+ ../Hexsum/MenuState.h ../Hexsum/SelectState.h ../Hexsum/Image.h \
+ ../Hexsum/Constants.h
 
 ../Hexsum/ArenaState.h:
 
@@ -192,6 +193,8 @@ C:\SDL2-2.0.3\include\SDL2/SDL_ttf.h:
 
 ../Hexsum/King.h:
 
+../Hexsum/SummonManager.h:
+
 ../Hexsum/StateData.h:
 
 ../Hexsum/../InputManager.h:
@@ -218,8 +221,8 @@ C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h:
 
 ../Hexsum/MenuState.h:
 
-../Hexsum/SelectReiState.h:
+../Hexsum/SelectState.h:
 
 ../Hexsum/Image.h:
 
-../Hexsum/SelectCampoState.h:
+../Hexsum/Constants.h:

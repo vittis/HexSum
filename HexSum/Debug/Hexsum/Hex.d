@@ -51,7 +51,7 @@ Hexsum/Hex.d: ../Hexsum/Hex.cpp ../Hexsum/Hex.h ../Hexsum/../Sprite.h \
  ../Hexsum/HexGrid.h ../Hexsum/Unit.h ../Hexsum/Player.h \
  ../Hexsum/../Timer.h ../Hexsum/../Color.h ../Hexsum/TurnLogic.h \
  ../Hexsum/Button.h ../Hexsum/UIElement.h ../Hexsum/King.h \
- ../Hexsum/StateData.h ../Hexsum/Constants.h
+ ../Hexsum/SummonManager.h ../Hexsum/StateData.h ../Hexsum/Constants.h
 
 ../Hexsum/Hex.h:
 
@@ -188,6 +188,8 @@ C:\SDL2-2.0.3\include\SDL2/SDL_ttf.h:
 ../Hexsum/UIElement.h:
 
 ../Hexsum/King.h:
+
+../Hexsum/SummonManager.h:
 
 ../Hexsum/StateData.h:
 

@@ -45,15 +45,16 @@ Hexsum/King.d: ../Hexsum/King.cpp ../Hexsum/King.h ../Hexsum/Unit.h \
  C:\SDL2-2.0.3\include\SDL2/SDL_timer.h \
  C:\SDL2-2.0.3\include\SDL2/SDL_version.h \
  C:\SDL2-2.0.3\include\SDL2/SDL.h ../Hexsum/../Geometry.h \
- ../Hexsum/../Timer.h ../Hexsum/ArenaState.h ../Hexsum/../State.h \
- ../Hexsum/../GameObject.h ../Hexsum/../Hexsum/UIElement.h \
- ../Hexsum/../Hexsum/../Sprite.h ../Hexsum/../Hexsum/../GameObject.h \
- ../Hexsum/../Text.h C:\SDL2-2.0.3\include\SDL2/SDL_ttf.h \
- ../Hexsum/HexGrid.h ../Hexsum/../Color.h ../Hexsum/TurnLogic.h \
- ../Hexsum/Button.h ../Hexsum/UIElement.h ../Hexsum/StateData.h \
- ../Hexsum/../InputManager.h ../Hexsum/Constants.h ../Hexsum/Archer.h \
- ../Hexsum/../Game.h ../Hexsum/../State.h ../Hexsum/../Resources.h \
- ../Hexsum/../Game.h C:\SDL2-2.0.3\include\SDL2/SDL_Mixer.h \
+ ../Hexsum/../Timer.h ../Hexsum/SummonManager.h ../Hexsum/ArenaState.h \
+ ../Hexsum/../State.h ../Hexsum/../GameObject.h \
+ ../Hexsum/../Hexsum/UIElement.h ../Hexsum/../Hexsum/../Sprite.h \
+ ../Hexsum/../Hexsum/../GameObject.h ../Hexsum/../Text.h \
+ C:\SDL2-2.0.3\include\SDL2/SDL_ttf.h ../Hexsum/HexGrid.h \
+ ../Hexsum/../Color.h ../Hexsum/TurnLogic.h ../Hexsum/Button.h \
+ ../Hexsum/UIElement.h ../Hexsum/StateData.h ../Hexsum/../InputManager.h \
+ ../Hexsum/Constants.h ../Hexsum/Archer.h ../Hexsum/../Game.h \
+ ../Hexsum/../State.h ../Hexsum/../Resources.h ../Hexsum/../Game.h \
+ C:\SDL2-2.0.3\include\SDL2/SDL_Mixer.h \
  C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h ../Hexsum/../InputManager.h \
  ../Hexsum/../Camera.h ../Hexsum/Cleric.h ../Hexsum/Soldier.h
 
@@ -164,6 +165,8 @@ C:\SDL2-2.0.3\include\SDL2/SDL.h:
 ../Hexsum/../Geometry.h:
 
 ../Hexsum/../Timer.h:
+
+../Hexsum/SummonManager.h:
 
 ../Hexsum/ArenaState.h:
 

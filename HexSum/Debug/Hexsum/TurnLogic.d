@@ -50,7 +50,8 @@ Hexsum/TurnLogic.d: ../Hexsum/TurnLogic.cpp ../Hexsum/TurnLogic.h \
  ../Hexsum/../Hexsum/../Sprite.h ../Hexsum/../Hexsum/../GameObject.h \
  ../Hexsum/../Text.h C:\SDL2-2.0.3\include\SDL2/SDL_ttf.h \
  ../Hexsum/HexGrid.h ../Hexsum/../Color.h ../Hexsum/Button.h \
- ../Hexsum/UIElement.h ../Hexsum/King.h ../Hexsum/StateData.h
+ ../Hexsum/UIElement.h ../Hexsum/King.h ../Hexsum/SummonManager.h \
+ ../Hexsum/StateData.h
 
 ../Hexsum/TurnLogic.h:
 
@@ -185,5 +186,7 @@ C:\SDL2-2.0.3\include\SDL2/SDL_ttf.h:
 ../Hexsum/UIElement.h:
 
 ../Hexsum/King.h:
+
+../Hexsum/SummonManager.h:
 
 ../Hexsum/StateData.h:

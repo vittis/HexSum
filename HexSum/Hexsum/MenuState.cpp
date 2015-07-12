@@ -53,5 +53,5 @@ void MenuState::Update(float dt){
 }
 
 void MenuState::Printa(){
-	Game::GetInstance()->Push(new SelectReiState());
+	Game::GetInstance()->Push(new SelectState());
 }

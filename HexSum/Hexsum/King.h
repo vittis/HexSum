@@ -9,6 +9,7 @@
 #define HEXSUM_KING_H_
 
 #include "Unit.h"
+#include "SummonManager.h"
 
 class King : public Unit {
 public:
@@ -20,6 +21,8 @@ public:
 	void PrepareSpecialAbility();
 	void PerformSpecialAbility(Hex *hex);
 	void ShowSummonRange();
+private:
+	SummonManager* summonManager;
 };
 
 #endif /* HEXSUM_KING_H_ */

@@ -51,9 +51,10 @@ Hexsum/Cleric.d: ../Hexsum/Cleric.cpp ../Hexsum/Cleric.h ../Hexsum/Unit.h \
  ../Hexsum/../Text.h C:\SDL2-2.0.3\include\SDL2/SDL_ttf.h \
  ../Hexsum/HexGrid.h ../Hexsum/../Color.h ../Hexsum/TurnLogic.h \
  ../Hexsum/Button.h ../Hexsum/UIElement.h ../Hexsum/King.h \
- ../Hexsum/StateData.h ../Hexsum/Constants.h ../Hexsum/../InputManager.h \
- ../Hexsum/../Game.h ../Hexsum/../State.h ../Hexsum/../Resources.h \
- ../Hexsum/../Game.h C:\SDL2-2.0.3\include\SDL2/SDL_Mixer.h \
+ ../Hexsum/SummonManager.h ../Hexsum/StateData.h ../Hexsum/Constants.h \
+ ../Hexsum/../InputManager.h ../Hexsum/../Game.h ../Hexsum/../State.h \
+ ../Hexsum/../Resources.h ../Hexsum/../Game.h \
+ C:\SDL2-2.0.3\include\SDL2/SDL_Mixer.h \
  C:\SDL2-2.0.3\include\SDL2/SDL_TTF.h ../Hexsum/../InputManager.h \
  ../Hexsum/../Camera.h ../Hexsum/../StillAnimation.h \
  ../Hexsum/../Sprite.h ../Hexsum/../Timer.h
@@ -193,6 +194,8 @@ C:\SDL2-2.0.3\include\SDL2/SDL_ttf.h:
 ../Hexsum/UIElement.h:
 
 ../Hexsum/King.h:
+
+../Hexsum/SummonManager.h:
 
 ../Hexsum/StateData.h:
 

@@ -7,31 +7,39 @@
 
 #include "SummonManager.h"
 
-#include "Unit.h"
 #include "ArenaState.h"
 #include "../Game.h"
 #include "Archer.h"
 #include "Soldier.h"
 #include "Cleric.h"
 
+SummonManager::SummonManager(Unit* king) {
+	this->king = king;
+}
 
 void SummonManager::SummonUnit(TipoUnidade tipoUnidade, Hex* hex, Player* player) {
 	Unit* unit;
 	switch (tipoUnidade) {
 	case TipoUnidade::ARCHER:
-		unit = new Archer(hex, player);
-		Game::GetInstance()->GetCurrentState().AddObject(unit);
-		ArenaState::turnLogic.allUnits.emplace_back(unit);
+		//if (static_cast<King*>(king)->mana >= Constants::custoManaArcher) {
+			unit = new Archer(hex, player);
+			Game::GetInstance()->GetCurrentState().AddObject(unit);
+			ArenaState::turnLogic.allUnits.emplace_back(unit);
+	//	}
 		break;
 	case TipoUnidade::SOLDIER:
-		unit = new Soldier(hex, player);
-		Game::GetInstance()->GetCurrentState().AddObject(unit);
-		ArenaState::turnLogic.allUnits.emplace_back(unit);
+	//	if (static_cast<King*>(king)->mana >= Constants::custoManaSoldier) {
+			unit = new Soldier(hex, player);
+			Game::GetInstance()->GetCurrentState().AddObject(unit);
+			ArenaState::turnLogic.allUnits.emplace_back(unit);
+	//	}
 		break;
 	case TipoUnidade::CLERIGO:
-		unit = new Cleric(hex, player);
-		Game::GetInstance()->GetCurrentState().AddObject(unit);
-		ArenaState::turnLogic.allUnits.emplace_back(unit);
+	//	if (static_cast<King*>(king)->mana >= Constants::custoManaCleric) {
+			unit = new Cleric(hex, player);
+			Game::GetInstance()->GetCurrentState().AddObject(unit);
+			ArenaState::turnLogic.allUnits.emplace_back(unit);
+	//	}
 		break;
 	}
 

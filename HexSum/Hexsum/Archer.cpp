@@ -18,6 +18,7 @@ Archer::Archer(Hex *hex, Player* player) : Unit(hex, player) {
 		sprite_attacking = Sprite("img/ArqueiroAzul/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/ArqueiroAzul/Attack.png", 37, 0.03);
 		sprite_damage = Sprite("img/ArqueiroAzul/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/archer_blue.png",1,0);
 	}
 	else if (player->color == Player::RED) {
 		sprite_idle = Sprite("img/ArqueiroVermelho/Stand.png", 37, 0.06);
@@ -25,6 +26,7 @@ Archer::Archer(Hex *hex, Player* player) : Unit(hex, player) {
 		sprite_attacking = Sprite("img/ArqueiroVermelho/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/ArqueiroVermelho/Attack.png", 37, 0.03);
 		sprite_damage = Sprite("img/ArqueiroVermelho/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/archer_red.png",1,0);
 	}
 	else if (player->color == Player::GREEN) {
 		sprite_idle = Sprite("img/ArqueiroVerde/Stand.png", 37, 0.06);
@@ -32,6 +34,7 @@ Archer::Archer(Hex *hex, Player* player) : Unit(hex, player) {
 		sprite_attacking = Sprite("img/ArqueiroVerde/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/ArqueiroVerde/Attack.png", 37, 0.03);
 		sprite_damage = Sprite("img/ArqueiroVerde/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/archer_green.png",1,0);
 	}
 	else if (player->color == Player::PURPLE) {
 		sprite_idle = Sprite("img/ArqueiroRoxo/Stand.png", 37, 0.06);
@@ -39,8 +42,9 @@ Archer::Archer(Hex *hex, Player* player) : Unit(hex, player) {
 		sprite_attacking = Sprite("img/ArqueiroRoxo/Attack.png", 37, 0.01);
 		sprite_casting = Sprite("img/ArqueiroRoxo/Attack.png", 37, 0.03);
 		sprite_damage = Sprite("img/ArqueiroRoxo/Damage.png", 37, 0.03);
+		card = Sprite("img/Main UI cortada/Fotos/archer_purple.png",1,0);
 	}
-	card = Sprite("img/card_archer.jpg",1,0);
+
 	spAtual = sprite_idle;
 	hp=2;
 	atk=1;
