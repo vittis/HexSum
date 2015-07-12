@@ -15,7 +15,9 @@ int SelectState::escolhaRei2 = 0;
 int SelectState::vez = 0;
 
 SelectState::SelectState():  bg("img/Pre-Jogo/pre_jogo_fundo.png", 1, 0), cortina_fundo(640,384, "img/Pre-Jogo/cortinas_boas.png"),
-		cortina_esquerda(305, 384, "img/Pre-Jogo/cortina_esquerda.png"), cortina_direita(975, 384, "img/Pre-Jogo/cortina_direita.png"), sombra_cima(640, 384, "img/Pre-Jogo/sombra_preta_cima.png"), sombra_baixo(640, 384, "img/Pre-Jogo/sombra_preta_baixo.png") {
+		cortina_esquerda(305, 384, "img/Pre-Jogo/cortina_esquerda.png"), cortina_direita(975, 384, "img/Pre-Jogo/cortina_direita.png"),
+		sombra_cima(640, 384, "img/Pre-Jogo/sombra_preta_cima.png"), sombra_baixo(640, 384, "img/Pre-Jogo/sombra_preta_baixo.png"),
+		campo1min(640, 240, "img/Pre-Jogo/gelo.png"), campo2min(640, 240, "img/Pre-Jogo/floresta.png"), campo4min(640, 240, "img/Pre-Jogo/castelo.png"){
 
 	vez = 0; escolhaRei1 = 0; escolhaRei2 = 0; escolhaCampo = 0;
 
@@ -23,6 +25,11 @@ SelectState::SelectState():  bg("img/Pre-Jogo/pre_jogo_fundo.png", 1, 0), cortin
 	rei2.Open("img/Pre-Jogo/statua_rei_verde.png"); //verde
 	rei3.Open("img/Pre-Jogo/statua_rei_roxo.png"); //roxo
 	rei4.Open("img/Pre-Jogo/statua_rei_vermelho.png"); //vermelho
+
+	rei1col.Open("img/Pre-Jogo/rei_azul.png"); //azul col
+	rei2col.Open("img/Pre-Jogo/rei_verde.png"); //verde col
+	rei3col.Open("img/Pre-Jogo/rei_roxo.png"); //roxo col
+	rei4col.Open("img/Pre-Jogo/rei_vermelho.png"); //vermelho col
 
 	campo1.Open("img/Pre-Jogo/marca_mapa_aceso.png"); //neve
 	campo2.Open("img/Pre-Jogo/marca_mapa_aceso.png"); //floresta
@@ -34,22 +41,22 @@ SelectState::SelectState():  bg("img/Pre-Jogo/pre_jogo_fundo.png", 1, 0), cortin
 
 	boxRei1.x = xRei1;
 	boxRei1.y = yRei1;
-	boxRei1.w = rei1.GetWidth();
+	boxRei1.w = rei1.GetWidth()/2;
 	boxRei1.h = rei1.GetHeight();
 
 	boxRei2.x = xRei2;
 	boxRei2.y = yRei2;
-	boxRei2.w = rei2.GetWidth();
+	boxRei2.w = rei2.GetWidth()/2;
 	boxRei2.h = rei2.GetHeight();
 
-	boxRei3.x = xRei3;
+	boxRei3.x = xRei3+rei3.GetWidth()/2;
 	boxRei3.y = yRei3;
-	boxRei3.w = rei3.GetWidth();
+	boxRei3.w = rei3.GetWidth()/2;
 	boxRei3.h = rei3.GetHeight();
 
-	boxRei4.x = xRei4;
+	boxRei4.x = xRei4+rei4.GetWidth()/2;
 	boxRei4.y = yRei4;
-	boxRei4.w = rei4.GetWidth();
+	boxRei4.w = rei4.GetWidth()/2;
 	boxRei4.h = rei4.GetHeight();
 
 	escalaCampo1 = 1; escalaCampo2 = 1.2;
@@ -98,27 +105,25 @@ void SelectState::MoveCortina(float vel) {
 void SelectState::Render() {
 	bg.Render(0, 0, 0);
 
-	RenderUIArray();
+	RenderRei();
 
 	HighlightCampo();
-
-	rei1.Render(boxRei1.x, boxRei1.y, 0);
-	rei2.Render(boxRei2.x, boxRei2.y, 0);
-	rei3.Render(boxRei3.x, boxRei3.y, 0);
-	rei4.Render(boxRei4.x, boxRei4.y, 0);
 
 	campo1.Render(boxCampo1.x, boxCampo1.y, 0);
 	campo2.Render(boxCampo2.x, boxCampo2.y, 0);
 	campo3.Render(boxCampo3.x, boxCampo3.y, 0);
 	campo4.Render(boxCampo4.x, boxCampo4.y, 0);
 
+	RenderCampoMiniatura();
 
 	if (vez != 2) {
-		//sombra_cima.Render();
+		sombra_cima.Render();
 	}
 	if (vez == 2) {
-		//sombra_baixo.Render();
+		sombra_baixo.Render();
 	}
+
+	RenderUIArray();
 
 	cortina_esquerda.Render();
 	cortina_direita.Render();
@@ -177,6 +182,28 @@ int SelectState::GetRei2() {
 	return escolhaRei2;
 }
 
+void SelectState::RenderRei() {
+	if (escolhaRei1 == 2 || escolhaRei2 == 2)
+		rei1col.Render(xRei1, boxRei1.y-22, 0);
+	else
+		rei1.Render(xRei1, boxRei1.y, 0);
+
+	if (escolhaRei1 == 3 || escolhaRei2 == 3)
+		rei2col.Render(xRei2, boxRei2.y-22, 0);
+	else
+		rei2.Render(xRei2, boxRei2.y, 0);
+
+	if (escolhaRei1 == 4 || escolhaRei2 == 4)
+		rei3col.Render(xRei3, boxRei3.y-22, 0);
+	else
+		rei3.Render(xRei3, boxRei3.y, 0);
+
+	if (escolhaRei1 == 1 || escolhaRei2 == 1)
+		rei4col.Render(xRei4, boxRei4.y-22, 0);
+	else
+		rei4.Render(xRei4, boxRei4.y, 0);
+}
+
 void SelectState::HighlightCampo() {
 	if (escolhaCampo == 2) {
 		campo1.SetScaleX(escalaCampo2);
@@ -221,6 +248,15 @@ void SelectState::HighlightCampo() {
 	boxCampo1.h = campo1.GetHeight();
 	boxCampo2.h = campo2.GetHeight();
 	boxCampo3.h = campo4.GetHeight();
+}
+
+void SelectState::RenderCampoMiniatura() {
+	if (escolhaCampo == 2)
+		campo1min.Render();
+	else if (escolhaCampo == 1)
+		campo2min.Render();
+	else if (escolhaCampo == 3)
+		campo4min.Render();
 }
 
 void SelectState::NextState() {
