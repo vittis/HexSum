@@ -66,9 +66,8 @@ void Tower::BeCaptured(Player *player) {
 }
 void Tower::Render() {
 	sp.Render(box.x+1.5, box.y+10, 0);
-	if (owner != NULL) {
-		bandeira.Render(box.x+9, box.y-35, 0);
-	}
+	if (owner != NULL)
+		bandeira.Render(box.x+27, box.y-35, 0);
 }
 
 

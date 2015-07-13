@@ -24,7 +24,7 @@ public:
 	static constexpr Hex::Cor ATTACK_RANGE= Hex::AMARELO;
 	static constexpr Hex::Cor ATTACK_UNIT= Hex::LARANJA;
 	static constexpr Hex::Cor SPECIAL_ABILITY_RANGE= Hex::CIANO;
-	static constexpr int manaInicial=2;
+	static constexpr int manaInicial=3;
 	static constexpr int custoManaSoldier=4;
 	static constexpr int custoManaArcher=3;
 	static constexpr int custoManaCleric=6;

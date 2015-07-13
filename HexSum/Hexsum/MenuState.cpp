@@ -8,10 +8,11 @@
 #include "MenuState.h"
 #include "../Game.h"
 
-MenuState::MenuState() : bg("img/fundo.jpg",1,0){
-	AddUIElement(new Button(640, 500, "img/button_play_over.png","img/button_play_out.png", &Printa)) ;
-	AddUIElement(new Button(640, 600, "img/button_over.png","img/button_out.png", NULL)) ;
-	AddUIElement(new Button(640, 700, "img/button_over.png","img/button_out.png",  NULL)) ;
+MenuState::MenuState() : bg("img/fundo.png",1,0){
+	if (!musicMenu.IsOpen()) {
+		musicMenu.Open("music/Menu_musica.mp3");
+		musicMenu.Play(-1);
+	}
 }
 
 void MenuState::Render(){
@@ -48,10 +49,14 @@ void MenuState::Pause(){
 }
 
 void MenuState::Update(float dt){
+	if (InputManager::GetInstance().KeyPress(ESCAPE_KEY) || InputManager::GetInstance().QuitRequested()) {
+		quitRequested = true;
+	}
+
+	if (InputManager::GetInstance().KeyPress(SDLK_SPACE)) {
+		Game::GetInstance()->Push(new SelectState());
+	}
+
 	UpdateArray(dt);
 	UpdateUIArray(dt);
-}
-
-void MenuState::Printa(){
-	Game::GetInstance()->Push(new SelectState());
 }

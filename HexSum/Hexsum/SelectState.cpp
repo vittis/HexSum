@@ -7,6 +7,7 @@
 
 #include "SelectState.h"
 #include "../Game.h"
+#include "../StillAnimation.h"
 
 StateData * SelectState::stateData = new StateData();
 int SelectState::escolhaCampo = 0;
@@ -20,6 +21,8 @@ SelectState::SelectState():  bg("img/Pre-Jogo/pre_jogo_fundo.png", 1, 0), cortin
 		campo1min(640, 240, "img/Pre-Jogo/gelo.png"), campo2min(640, 240, "img/Pre-Jogo/floresta.png"), campo4min(640, 240, "img/Pre-Jogo/castelo.png"){
 
 	vez = 0; escolhaRei1 = 0; escolhaRei2 = 0; escolhaCampo = 0;
+
+	sombra_anim = Sprite("img/Pre-Jogo/sombra_preta_anim.png", 10, 0.1);
 
 	rei1.Open("img/Pre-Jogo/statua_rei_azul.png"); //azul
 	rei2.Open("img/Pre-Jogo/statua_rei_verde.png"); //verde
@@ -59,8 +62,6 @@ SelectState::SelectState():  bg("img/Pre-Jogo/pre_jogo_fundo.png", 1, 0), cortin
 	boxRei4.w = rei4.GetWidth()/2;
 	boxRei4.h = rei4.GetHeight();
 
-	escalaCampo1 = 1; escalaCampo2 = 1.2;
-
 	xCampo1 = 385; xCampo2 = 540; xCampo3 = 692; xCampo4 = 761;
 	yCampo1 = 218; yCampo2 = 90; yCampo3 = 125; yCampo4 = 233;
 
@@ -76,8 +77,8 @@ SelectState::SelectState():  bg("img/Pre-Jogo/pre_jogo_fundo.png", 1, 0), cortin
 
 	boxCampo3.x = xCampo3;
 	boxCampo3.y = yCampo3;
-	boxCampo3.w = campo3.GetWidth()*escalaCampo1;
-	boxCampo3.h = campo3.GetHeight()*escalaCampo1;
+	boxCampo3.w = campo3.GetWidth();
+	boxCampo3.h = campo3.GetHeight();
 
 	boxCampo4.x = xCampo4;
 	boxCampo4.y = yCampo4;
@@ -90,6 +91,12 @@ SelectState::SelectState():  bg("img/Pre-Jogo/pre_jogo_fundo.png", 1, 0), cortin
 }
 
 void SelectState::Update(float dt) {
+	if (InputManager::GetInstance().KeyPress(ESCAPE_KEY) || InputManager::GetInstance().QuitRequested()) {
+		popRequested = true;
+	}
+
+	sombra_anim.Update(dt);
+
 	MoveCortina(6);
 	OnClick();
 	UpdateUIArray(dt);
@@ -107,14 +114,14 @@ void SelectState::Render() {
 
 	RenderRei();
 
-	HighlightCampo();
-
 	campo1.Render(boxCampo1.x, boxCampo1.y, 0);
 	campo2.Render(boxCampo2.x, boxCampo2.y, 0);
 	campo3.Render(boxCampo3.x, boxCampo3.y, 0);
 	campo4.Render(boxCampo4.x, boxCampo4.y, 0);
 
 	RenderCampoMiniatura();
+
+	sombra_anim.Render(0, 0, 0);
 
 	if (vez != 2) {
 		sombra_cima.Render();
@@ -202,52 +209,6 @@ void SelectState::RenderRei() {
 		rei4col.Render(xRei4, boxRei4.y-22, 0);
 	else
 		rei4.Render(xRei4, boxRei4.y, 0);
-}
-
-void SelectState::HighlightCampo() {
-	if (escolhaCampo == 2) {
-		campo1.SetScaleX(escalaCampo2);
-		campo1.SetScaleY(escalaCampo2);
-		boxCampo1.x = xCampo1 - (escalaCampo2-escalaCampo1)*campo1.GetWidth()/(2*escalaCampo2);
-		boxCampo1.y = yCampo1 - (escalaCampo2-escalaCampo1)*campo1.GetHeight()/(2*escalaCampo2);
-	}
-	else {
-		campo1.SetScaleX(escalaCampo1);
-		campo1.SetScaleY(escalaCampo1);
-		boxCampo1.x = xCampo1;
-		boxCampo1.y = yCampo1;
-	}
-	if (escolhaCampo == 1) {
-		campo2.SetScaleX(escalaCampo2);
-		campo2.SetScaleY(escalaCampo2);
-		boxCampo2.x = xCampo2 - (escalaCampo2-escalaCampo1)*campo2.GetWidth()/(2*escalaCampo2);
-		boxCampo2.y = yCampo2 - (escalaCampo2-escalaCampo1)*campo2.GetHeight()/(2*escalaCampo2);
-	}
-	else {
-		campo2.SetScaleX(escalaCampo1);
-		campo2.SetScaleY(escalaCampo1);
-		boxCampo2.x = xCampo2;
-		boxCampo2.y = yCampo2;
-	}
-	if (escolhaCampo == 3) {
-		campo4.SetScaleX(escalaCampo2);
-		campo4.SetScaleY(escalaCampo2);
-		boxCampo4.x = xCampo4 - (escalaCampo2-escalaCampo1)*campo4.GetWidth()/(2*escalaCampo2);
-		boxCampo4.y = yCampo4 - (escalaCampo2-escalaCampo1)*campo4.GetHeight()/(2*escalaCampo2);
-	}
-	else {
-		campo4.SetScaleX(escalaCampo1);
-		campo4.SetScaleY(escalaCampo1);
-		boxCampo4.x = xCampo4;
-		boxCampo4.y = yCampo4;
-	}
-
-	boxCampo1.w = campo1.GetWidth();
-	boxCampo2.w = campo2.GetWidth();
-	boxCampo3.w = campo4.GetWidth();
-	boxCampo1.h = campo1.GetHeight();
-	boxCampo2.h = campo2.GetHeight();
-	boxCampo3.h = campo4.GetHeight();
 }
 
 void SelectState::RenderCampoMiniatura() {

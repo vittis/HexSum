@@ -62,7 +62,11 @@ King::King(Hex *hex, Player* player, int initialMana) : Unit(hex, player), mana(
 }
 void King::BeginTurnSetup() {
 	Unit::BeginTurnSetup();
-	mana++;
+	for(int i=0; i< ArenaState::towers.size(); i++) {
+		if (ArenaState::towers[i]->owner != NULL)
+			if (ArenaState::towers[i]->owner->color == owner->color)
+				mana++;
+	}
 }
 void King::Update(float dt) {
 	Unit::Update(dt);

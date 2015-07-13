@@ -48,32 +48,43 @@ void Unit::ShowMovimentRange() {
 		if (ArenaState::grid->GetNeighbor(*location, i).isEmpty || ArenaState::grid->GetNeighbor(*location, i).isTower) {
 			if (ArenaState::grid->GetNeighbor(*location, i).isEmpty) {
 				ArenaState::grid->GetNeighbor(*location, i).Highlight(Constants::MOVE_RANGE);
+				highlightedHexs.emplace_back(&ArenaState::grid->GetNeighbor(*location, i));
 			}
-			if (ArenaState::grid->GetNeighbor(*location, i).isTower) {
-				ArenaState::grid->GetNeighbor(*location, i).Highlight(static_cast<Hex::Cor>((int)owner->color));
+			else if (ArenaState::grid->GetNeighbor(*location, i).isTower) {
+				if (static_cast<Tower*>(ArenaState::grid->GetNeighbor(*location, i).tower)->owner == NULL) {
+					ArenaState::grid->GetNeighbor(*location, i).Highlight(static_cast<Hex::Cor>((int)owner->color));
+					highlightedHexs.emplace_back(&ArenaState::grid->GetNeighbor(*location, i));
+				}
+				else {
+					if (static_cast<Tower*>(ArenaState::grid->GetNeighbor(*location, i).tower)->owner->color != owner->color) {
+						ArenaState::grid->GetNeighbor(*location, i).Highlight(static_cast<Hex::Cor>((int)owner->color));
+						highlightedHexs.emplace_back(&ArenaState::grid->GetNeighbor(*location, i));
+					}
+				}
 			}
-			highlightedHexs.emplace_back(&ArenaState::grid->GetNeighbor(*location, i));
 		}
 	}
 }
 
 void Unit::ActionIntent(Action action) {
-	if ((moveDestination == NULL && !animating) || action == Action::PASS) {
-		if (!highlightUnit) {
-			ActionSetup();
-			switch (action) {
-				case Action::MOVE:
-					ShowMovimentRange();
-					break;
-				case Action::ATTACK:
-					ShowAttackRange();
-					break;
-				case Action::PASS:
-					TakeAction(action, nullptr);
-					break;
-				case Action::SPECIAL_ABILITY:
-					PrepareSpecialAbility();
-					break;
+	if(!ArenaState::pause){
+		if ((moveDestination == NULL && !animating) || action == Action::PASS) {
+			if (!highlightUnit) {
+				ActionSetup();
+				switch (action) {
+					case Action::MOVE:
+						ShowMovimentRange();
+						break;
+					case Action::ATTACK:
+						ShowAttackRange();
+						break;
+					case Action::PASS:
+						TakeAction(action, nullptr);
+						break;
+					case Action::SPECIAL_ABILITY:
+						PrepareSpecialAbility();
+						break;
+				}
 			}
 		}
 	}
@@ -82,60 +93,62 @@ void Unit::CaptureTower(Hex* hex) {
 	static_cast<Tower*>(hex->tower)->BeCaptured(owner);
 }
 void Unit::TakeAction(Action action, Hex* hex) {
-	//if (!unHighlightUnit) { Descomentar para clicar no hex só se a parada tiver descido
-	if (hex != NULL)
-		if(hex->center.x > location->center.x)
-			facingRight = true;
-		else if(hex->center.x< location->center.x)
-			facingRight = false;
-		switch (action) {
-			case Action::MOVE:
-				if (ap >= 1) {
-					if (hex->isEmpty) {
-						MoveTo(hex);
-						ap--;
+	if(!ArenaState::pause){
+		//if (!unHighlightUnit) { Descomentar para clicar no hex só se a parada tiver descido
+		if (hex != NULL)
+			if(hex->center.x > location->center.x)
+				facingRight = true;
+			else if(hex->center.x< location->center.x)
+				facingRight = false;
+			switch (action) {
+				case Action::MOVE:
+					if (ap >= 1) {
+						if (hex->isEmpty) {
+							MoveTo(hex);
+							ap--;
+						}
+						else if (hex->isTower) {
+							CaptureTower(hex);
+							ap--;
+						}
 					}
-					else if (hex->isTower) {
-						CaptureTower(hex);
-						ap--;
+					break;
+				case Action::ATTACK:
+					if (ap >= 2) {
+						AttackUnit(static_cast<Unit*>(hex->unit));
+						ap-=2;
 					}
-				}
-				break;
-			case Action::ATTACK:
-				if (ap >= 2) {
-					AttackUnit(static_cast<Unit*>(hex->unit));
-					ap-=2;
-				}
-				else {
-					std::cout<<"voce nao tem action points suficiente"<<std::endl;
-				}
-				break;
-			case Action::PASS:
-				unHighlightUnit=true;
-				ap=0;
-				break;
-			case Action::SPECIAL_ABILITY:
-				if (ap >= specialAbilityCost) {
-					PerformSpecialAbility(hex);
-					ap-= specialAbilityCost;
-				}
-				break;
-			default:
-				std::cout<<"action nao definida!!!!"<<std::endl;
-				break;
-		}
-
-		ActionSetup();
-		if (action != Action::PASS)
-			for (int i =0; i<ArenaState::grid->size(); i++) {
-				ArenaState::grid->At(i).height=ArenaState::grid->At(i).originalHeight;
+					else {
+						std::cout<<"voce nao tem action points suficiente"<<std::endl;
+					}
+					break;
+				case Action::PASS:
+					unHighlightUnit=true;
+					ap=0;
+					break;
+				case Action::SPECIAL_ABILITY:
+					if (ap >= specialAbilityCost) {
+						PerformSpecialAbility(hex);
+						ap-= specialAbilityCost;
+					}
+					break;
+				default:
+					std::cout<<"action nao definida!!!!"<<std::endl;
+					break;
 			}
-		if (ap <= 0 && moveDestination == NULL && !animating) {
-			EndTurn();
-		}
-		else if (ap <= 0)
-			endTurnFlag=true;
-	//}
+
+			ActionSetup();
+			if (action != Action::PASS)
+				for (int i =0; i<ArenaState::grid->size(); i++) {
+					ArenaState::grid->At(i).height=ArenaState::grid->At(i).originalHeight;
+				}
+			if (ap <= 0 && moveDestination == NULL && !animating) {
+				EndTurn();
+			}
+			else if (ap <= 0)
+				endTurnFlag=true;
+		//}
+	}
 }
 void Unit::AttackUnit(Unit* unit) {
 	if (unit->box.x > this->box.x) {
@@ -173,6 +186,10 @@ void Unit::ActionSetup() {
 	}
 }
 void Unit::EndTurn() {
+	ArenaState::selectedInfoUnit = NULL;
+	ArenaState::estadoRei = false;
+	ArenaState::passou = true;
+
 	if (ArenaState::selectedUnit == this)
 		ArenaState::turnLogic.PassTurnToNextUnit();
 }

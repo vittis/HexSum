@@ -12,12 +12,13 @@
 #include "Image.h"
 #include "Button.h"
 #include "../Sprite.h"
+#include "../Music.h"
+#include "../InputManager.h"
 
 class MenuState : public State {
 private:
 	Sprite bg;
-
-	static void Printa();
+	Music musicMenu;
 
 public:
 	MenuState();

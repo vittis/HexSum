@@ -49,13 +49,25 @@ Soldier::Soldier(Hex *hex, Player* player) : Unit(hex, player) {
 	ap=3;
 	maxAP=ap;
 	type=UnitType::MELEE;
+	specialAbilityCost=3;
+}
+void Soldier::PrepareSpecialAbility() {
+	TakeAction(Action::SPECIAL_ABILITY, nullptr);
+}
+void Soldier::PerformSpecialAbility(Hex *hex) {
+	SetAnimacao(AnimationType::ATTACKING);
+	for (int i=0; i<ArenaState::grid->hex_directions.size(); i++) {
+		if (ArenaState::grid->GetNeighbor(*location, i).unit != NULL) {
+			static_cast<Unit*>(ArenaState::grid->GetNeighbor(*location, i).unit)->ReceiveDamage(1);
+		}
+	}
 }
 void Soldier::BeginTurnSetup() {
 	Unit::BeginTurnSetup();
 	/*for (int i=0; i<ArenaState::grid->hex_directions.size(); i++) {
 		if (ArenaState::grid->GetNeighbor(*location, i).unit != NULL) {
 			if (owner->color == static_cast<Unit*>(ArenaState::grid->GetNeighbor(*location, i).unit)->owner->color) {
-				if (static_cast<Unit*>(ArenaState::grid->GetNeighbor(*location, i).unit)->Is("Farmer")) {
+				if (static_cast<Unit*>(ArenaState::grid->GetNeighbor(*location, i).unit)->Is("Soldier")) {
 					ap++;
 					std::cout<<"Soldier ganhou 1 bonus AP por estar perto de um outro Soldier!!!!!!"<<std::endl;
 				}

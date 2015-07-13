@@ -20,6 +20,8 @@
 #include "../Timer.h"
 #include "King.h"
 #include "StateData.h"
+#include "Tower.h"
+#include "../Music.h"
 
 class ArenaState : public State {
 public:
@@ -33,6 +35,7 @@ public:
 	void Resume();
 	void Setup();
 	static Unit *selectedUnit;
+	static Unit *selectedInfoUnit;
 	static Player* player1;
 	static Player* player2;
 	static TurnLogic turnLogic;
@@ -40,15 +43,24 @@ public:
 
 	static string GetPrefixo();
 	static int summonSelecionado;
+	static bool pause;
+	static bool estadoRei;
+	static bool passou;
+	static vector<Tower*> towers;
 private:
-
+	Music musicArena;
 	Sprite bg, bg2, bg3;
-
+	vector<Sprite> hpBar;
+	vector<Sprite> manaBar;
+	vector<Sprite> manaInfoBar;
+	vector<Sprite> hpBarInfo;
 	Sprite timeLine;
 	Sprite ampulheta;
 	Sprite painel_esquerda;
 	Sprite painel_direita;
 	Sprite bandeira;
+	Sprite bandeiraInfo;
+	Sprite borda;
 
 	Button *passButton;
 	Button *attackButton;
@@ -59,17 +71,17 @@ private:
 	Button *clericButton;
 	Button *archerButton;
 
+	Text* pauseText;
+	Text* apInfo;
+	Text* atkInfo;
 
 	Text* ap;
 	Text* atk;
-	Text* hp;
-	Text* mana;
 	//Text* time;
 	//static Timer timerTurno;
 
 	string MakeText(string, int);
 	Timer timerAmpulheta;
-	static bool passou;
 	static void SelectedUnitAttack();
 	static void PassTurn();
 	static void SelectedUnitMove();
@@ -77,6 +89,8 @@ private:
 	static void SelectArcher();
 	static void SelectSoldier();
 	static void SelectCleric();
+	static void MenuButton();
+	static void PauseButton();
 };
 
 

@@ -15,6 +15,8 @@ public:
 	Soldier(Hex *hex, Player* player);
 	void BeginTurnSetup();
 	bool Is(std::string type);
+	void PrepareSpecialAbility();
+	void PerformSpecialAbility(Hex *hex);
 };
 
 
