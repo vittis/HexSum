@@ -24,6 +24,7 @@ public:
 	void Render();
 	void OnClick();
 	void SetScale(float Scale);
+	void SetSP(string, string);
 };
 
 #endif /* HEXSUM_BUTTON_H_ */

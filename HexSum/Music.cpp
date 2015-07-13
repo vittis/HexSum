@@ -31,3 +31,7 @@ void Music::Stop(){
 bool Music::IsOpen(){
 	return music != NULL;
 }
+
+void Music::SetVolume(int volume){
+	Mix_VolumeMusic(volume);
+}

@@ -10,13 +10,15 @@
 
 TurnLogic::TurnLogic() {
 	indice=-1;
+	currentTurn=0;
 }
 void TurnLogic::PassTurnToNextUnit() {
+	currentTurn++;
+	std::cout<<currentTurn<<std::endl;
 	if (indice < allUnits.size()-1)
 		indice++;
 	else
 		indice=0;
-	std::cout<<"indice="<<indice<<std::endl;
 	ArenaState::selectedUnit = allUnits[indice];
 	ArenaState::selectedUnit->BeginTurnSetup();
 }

@@ -28,10 +28,11 @@ Player* ArenaState::player2 = NULL;
 TurnLogic ArenaState::turnLogic;
 int ArenaState::tipoCampo=-1;
 bool ArenaState::passou = false;
-//Timer ArenaState::timerTurno;
 int ArenaState::summonSelecionado=0;
 bool ArenaState::pause = false;
 bool ArenaState::estadoRei = false;
+bool ArenaState::muted = false;
+bool ArenaState::help = false;
 vector<Tower*> ArenaState::towers;
 
 ArenaState::ArenaState(int n, int m, StateData stateData) {
@@ -42,8 +43,7 @@ ArenaState::ArenaState(int n, int m, StateData stateData) {
 	timerAmpulheta = Timer();
 
 	for(int i =0; i < 20; i++){
-		manaBar.push_back(Sprite("img/Main UI cortada/HP_MP/mp.png", 1,0));
-		manaInfoBar.push_back(Sprite("img/Main UI cortada/HP_MP/mp.png", 1,0));
+		cristal.push_back(Sprite("img/Main UI cortada/HP_MP/mana.png", 1,0));
 		hpBar.push_back(Sprite("img/Main UI cortada/HP_MP/hp.png", 1,0));
 		hpBarInfo.push_back(Sprite("img/Main UI cortada/HP_MP/hp.png", 1,0));
 	}
@@ -58,7 +58,6 @@ ArenaState::ArenaState(int n, int m, StateData stateData) {
 	bandeiraInfo = Sprite("img/Main UI cortada/Card/bandeira_red.png", 1,0);
 	bandeiraInfo.SetFlipped(true);
 
-	bg.Open("img/"+GetPrefixo()+"_fundo.png");
 	switch (tipoCampo) {
 	case 0:
 		bg2.Open("img/floresta_baixo.png");
@@ -73,13 +72,17 @@ ArenaState::ArenaState(int n, int m, StateData stateData) {
 	case 2:
 		bg2.Open("img/castelo_baixo.png");
 		bg3.Open("img/castelo_cima.png");
+		bg.Open("img/"+GetPrefixo()+"_fundo.png");
 		break;
 	}
 
+	muteButton = new Button(127, 114, "img/Main UI cortada/Botoes/sound_button_hover.png","img/Main UI cortada/Botoes/sound_button.png",  &MuteButton);
+	helpButton = new Button(196, 114, "img/Main UI cortada/Botoes/help_button_hover.png","img/Main UI cortada/Botoes/help_button.png",  &HelpButton);
+	sairButton = new Button(928+22, 57+21, "img/Main UI cortada/Botoes/botao_sairhover.png", "img/Main UI cortada/Botoes/botao_sair.png", &HelpButton);
 	AddUIElement(new Button(125, 51, "img/Main UI cortada/Botoes/menu_button_hover.png","img/Main UI cortada/Botoes/menu_button.png",  &MenuButton)) ;
 	AddUIElement(new Button(50, 114, "img/Main UI cortada/Botoes/pause_button_hover.png","img/Main UI cortada/Botoes/pause_button.png",  &PauseButton)) ;
-	AddUIElement(new Button(127, 114, "img/Main UI cortada/Botoes/sound_button_hover.png","img/Main UI cortada/Botoes/sound_button.png",  NULL)) ;
-	AddUIElement(new Button(196, 114, "img/Main UI cortada/Botoes/help_button_hover.png","img/Main UI cortada/Botoes/help_button.png",  NULL)) ;
+	AddUIElement(muteButton) ;
+	AddUIElement(helpButton) ;
 
 	grid = new HexGrid(n, m);
 
@@ -87,7 +90,7 @@ ArenaState::ArenaState(int n, int m, StateData stateData) {
 	AddObject(king);
 	turnLogic.allUnits.emplace_back(king);
 
-	Unit* king2 = new King(&grid->At(0, -6), player2, Constants::manaInicial);
+	Unit* king2 = new King(&grid->At(0, 5), player2, Constants::manaInicial);
 	AddObject(king2);
 	turnLogic.allUnits.emplace_back(king2);
 
@@ -99,7 +102,6 @@ ArenaState::ArenaState(int n, int m, StateData stateData) {
 	archerButton = new Button(906, 668, "img/Main UI cortada/Fotos/archer.png", "img/Main UI cortada/Fotos/archer.png", &SelectArcher);
 	soldierButton = new Button(1045, 668, "img/Main UI cortada/Fotos/soldier.png", "img/Main UI cortada/Fotos/soldier.png", &SelectSoldier);
 	clericButton = new Button(1177, 668, "img/Main UI cortada/Fotos/cleric.png", "img/Main UI cortada/Fotos/cleric.png", &SelectCleric);
-
 
 	AddUIElement(attackButton);
 	AddUIElement(passButton);
@@ -115,10 +117,15 @@ ArenaState::ArenaState(int n, int m, StateData stateData) {
 	atkInfo = new Text("font/mask.ttf", 26, TextStyle::BLENDED, " ", Color::GetColor(0,0,0,0), 996, 675);
 	pauseText = new Text("font/mask.ttf", 100, TextStyle::BLENDED, "Paused", Color::GetColor(0,0,0,0), 487, 330);
 
-	//time = new Text("font/teste.TTF", 16, TextStyle::SOLID, " ", Color::GetColor(255,0,255,0), 100, 660);
-	//timerTurno = Timer();
+	manas.push_back(new Text("font/mask.ttf", 18, TextStyle::BLENDED, MakeText("",Constants::custoManaArcher), Color::GetColor(0,0,0,0), 944, 698));
+	manas.push_back(new Text("font/mask.ttf", 18, TextStyle::BLENDED, MakeText("",Constants::custoManaSoldier), Color::GetColor(0,0,0,0), 1082,698));
+	manas.push_back(new Text("font/mask.ttf", 18, TextStyle::BLENDED, MakeText("",Constants::custoManaCleric), Color::GetColor(0,0,0,0), 1216, 698));
+	manas.push_back(new Text("font/mask.ttf", 18, TextStyle::BLENDED, " ", Color::GetColor(0,0,0,0), 154, 698));
+	manas.push_back(new Text("font/mask.ttf", 18, TextStyle::BLENDED, " ", Color::GetColor(0,0,0,0), 1123, 698));
+
 	musicArena.Open("music/"+GetPrefixo()+"_musica.mp3");
 	musicArena.Play(-1);
+	eventTrigger=false;
 }
 void ArenaState::SelectArcher() {
 	summonSelecionado=2;
@@ -179,11 +186,35 @@ void ArenaState::Setup() {
 
 }
 ArenaState::~ArenaState() {
-	delete grid;
 }
 
 void ArenaState::Update(float dt) {
-	//timerTurno.Update(dt);
+	if(turnLogic.currentTurn >= 15 && !eventTrigger) {
+		eventTrigger=true;
+		for (int i=0; i < HexGrid::hex_directions.size(); i++) {
+			ArenaState::grid->GetNeighbor(grid->At(0,0), i).height=0;
+			ArenaState::grid->GetNeighbor(grid->At(0,0), i).originalHeight=0;
+			ArenaState::grid->GetNeighbor(grid->At(0,0), i).isEmpty=true;
+			Tower* tower = new Tower(&grid->At(0,0));
+			towers.emplace_back(tower);
+			AddObject(tower);
+		}
+
+	}
+
+
+	manas[0]->SetText(MakeText("",Constants::custoManaArcher+static_cast<King*>(selectedUnit->owner->king)->summonManager->GetCustoAdicional(2, selectedUnit->owner)));
+	manas[1]->SetText(MakeText("",Constants::custoManaSoldier+static_cast<King*>(selectedUnit->owner->king)->summonManager->GetCustoAdicional(0, selectedUnit->owner)));
+	manas[2]->SetText(MakeText("",Constants::custoManaCleric+static_cast<King*>(selectedUnit->owner->king)->summonManager->GetCustoAdicional(1, selectedUnit->owner)));
+
+
+	if(muted){
+		musicArena.SetVolume(0);
+		muteButton->SetSP("img/Main UI cortada/Botoes/mute_button_hover.png","img/Main UI cortada/Botoes/mute_button.png");
+	}else{
+		muteButton->SetSP("img/Main UI cortada/Botoes/sound_button_hover.png","img/Main UI cortada/Botoes/sound_button.png");
+		musicArena.SetVolume(100);
+	}
 
 	if(ArenaState::passou == true){
 
@@ -202,16 +233,17 @@ void ArenaState::Update(float dt) {
 	if(selectedInfoUnit != NULL && selectedInfoUnit != selectedUnit){
 		apInfo->SetText(MakeText("Ap: ", selectedInfoUnit->ap));
 		atkInfo->SetText(MakeText("Atk: ", selectedInfoUnit->atk));
+		if(selectedInfoUnit->Is("King"))
+			manas[4]->SetText(MakeText("",  static_cast<King*>(selectedInfoUnit)->mana));
+
 	}
 
 	ap->SetText(MakeText("Ap: ", selectedUnit->ap));
 	atk->SetText(MakeText("Atk: ", selectedUnit->atk));
 
-	//if(10000-timerTurno.Get() < 0){
-	//	PassTurn();
-	//}else{
-	//	time->SetText(MakeText("Time: ", 1000-timerTurno.Get()));
-	//}
+	if(selectedUnit->Is("King")){
+		manas[3]->SetText(MakeText("",  static_cast<King*>(selectedUnit)->mana));
+	}
 
 	if(selectedUnit->owner->color == Player::RED){
 		bandeira.Open("img/Main UI cortada/Card/bandeira_red.png");
@@ -236,19 +268,23 @@ void ArenaState::Update(float dt) {
 	}
 
 	if(InputManager::GetInstance().MousePress(1)){
-		for(int i =0; i < (int) turnLogic.allUnits.size(); i++){
-			if (turnLogic.allUnits[i]->location->box.IsInside((float)InputManager::GetInstance().GetMouseX(), (float)InputManager::GetInstance().GetMouseY())) {
-				if(selectedUnit != turnLogic.allUnits[i]){
-					ArenaState::selectedInfoUnit = turnLogic.allUnits[i];
-					ArenaState::estadoRei = true;
+			for(int i =0; i < (int) turnLogic.allUnits.size(); i++){
+				if (turnLogic.allUnits[i]->location->box.IsInside((float)InputManager::GetInstance().GetMouseX(), (float)InputManager::GetInstance().GetMouseY())) {
+					if(selectedUnit != NULL){
+						if(selectedUnit != turnLogic.allUnits[i]){
+								ArenaState::selectedInfoUnit = turnLogic.allUnits[i];
+								ArenaState::estadoRei = true;
+						}
+					}
 				}
 			}
 		}
-	}
 
 	clericButton->Update(dt);
 	soldierButton->Update(dt);
 	archerButton->Update(dt);
+
+	sairButton->Update(dt);
 
 	ampulheta.Update(dt);
 	grid->GridUpdate();
@@ -298,12 +334,12 @@ void ArenaState::Render(){
 	painel_direita.Render(735,600,0);
 	painel_esquerda.Render(0,600,0);
 	bandeira.Render(315,585,0);
+
 	selectedUnit->card.Render(70,625,0);
 
 	ap->Render(0,0);
 	atk->Render(0,0);
 
-	//time->Render(100,660);
 
 	RenderUIArray();
 
@@ -320,15 +356,8 @@ void ArenaState::Render(){
 				}
 
 				if(ArenaState::selectedInfoUnit->Is("King")){
-					for(int i=0; i < static_cast<King*>(selectedInfoUnit)->mana;i++){
-						if(i < 14){
-							if(i > 6){
-								manaInfoBar[i].Render(1076, 708-(i-7)*13,0);
-							}else{
-								manaInfoBar[i].Render(1100, 708-i*13,0);
-							}
-						}
-					}
+					cristal[4].Render(1116,690,0);
+					manas[4]->Render(0,0);
 				}
 
 			}
@@ -346,6 +375,12 @@ void ArenaState::Render(){
 				case 2: borda.Render(906-47, 668-47,0);
 					break;
 			}
+			cristal[0].Render(936,690,0);
+			cristal[1].Render(1074,690,0);
+			cristal[2].Render(1208,690,0);
+			manas[0]->Render(0,0);
+			manas[1]->Render(0,0);
+			manas[2]->Render(0,0);
 		}
 	}else{
 		if(ArenaState::selectedInfoUnit != NULL && ArenaState::selectedInfoUnit != selectedUnit){
@@ -359,15 +394,8 @@ void ArenaState::Render(){
 			}
 
 			if(ArenaState::selectedInfoUnit->Is("King")){
-				for(int i=0; i < static_cast<King*>(selectedInfoUnit)->mana;i++){
-					if(i < 14){
-						if(i > 6){
-							manaInfoBar[i].Render(1100, 708-(i-7)*13,0);
-						}else{
-							manaInfoBar[i].Render(1066, 708-i*13,0);
-						}
-					}
-				}
+				cristal[4].Render(1116,690,0);
+				manas[4]->Render(0,0);
 			}
 		}
 
@@ -377,21 +405,19 @@ void ArenaState::Render(){
 		pauseText->Render(0,0);
 	}
 
+	if(ArenaState::help){
+		Sprite("img/Main UI cortada/Help/tela_help.png",1,0).Render(202,24,0);
+		sairButton->Render();
+	}
+
 
 	for(int i=0; i < selectedUnit->hp;i++){
 		hpBar[i].Render(44,708-i*13,0);
 	}
 
 	if(ArenaState::selectedUnit->Is("King")){
-		for(int i=0; i < static_cast<King*>(selectedUnit)->mana;i++){
-			if(i < 14){
-				if(i > 6){
-					manaBar[i].Render(190, 708-(i-7)*13,0);
-				}else{
-					manaBar[i].Render(166, 708-i*13,0);
-				}
-			}
-		}
+		cristal[3].Render(147,690,0);
+		manas[3]->Render(0,0);
 	}
 }
 
@@ -417,19 +443,37 @@ void ArenaState::SelectedUnitSpell(){
 
 void ArenaState::PassTurn(){
 	ArenaState::selectedUnit->ActionIntent(ArenaState::selectedUnit->Action::PASS);
-		//timerTurno.Restart();
 }
 
 void ArenaState::MenuButton(){
 	Game::GetInstance()->Push(new MenuState());
 
-	/*bugando*/
+	ArenaState::muted = false;
+	ArenaState::help = false;
+	ArenaState::estadoRei = false;
 	ArenaState::pause = false;
-	ArenaState::turnLogic.allUnits.clear();
+	ArenaState::passou = false;
+	ArenaState::summonSelecionado=0;
+	ArenaState::selectedInfoUnit = NULL;
+	turnLogic.allUnits.clear();
+
+	for(int i=0; i < (int) towers.size(); i++)
+		towers[i]->owner = NULL;
+
 }
 
 void ArenaState::PauseButton(){
-	pause = !pause;
+	if(!help)
+		pause = !pause;
+}
+
+void ArenaState::MuteButton(){
+	muted = !muted;
+}
+
+void ArenaState::HelpButton(){
+	if(!ArenaState::pause)
+		help = !help;
 }
 
 

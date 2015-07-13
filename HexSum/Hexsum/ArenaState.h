@@ -46,13 +46,14 @@ public:
 	static bool pause;
 	static bool estadoRei;
 	static bool passou;
+	static bool muted;
+	static bool help;
 	static vector<Tower*> towers;
 private:
 	Music musicArena;
 	Sprite bg, bg2, bg3;
 	vector<Sprite> hpBar;
-	vector<Sprite> manaBar;
-	vector<Sprite> manaInfoBar;
+	vector<Sprite> cristal;
 	vector<Sprite> hpBarInfo;
 	Sprite timeLine;
 	Sprite ampulheta;
@@ -67,18 +68,19 @@ private:
 	Button *moveButton;
 	Button *spellButton;
 
+	Button *muteButton;
+	Button *helpButton;
 	Button *soldierButton;
 	Button *clericButton;
 	Button *archerButton;
-
+	Button *sairButton;
+	vector<Text*> manas;
 	Text* pauseText;
 	Text* apInfo;
 	Text* atkInfo;
 
 	Text* ap;
 	Text* atk;
-	//Text* time;
-	//static Timer timerTurno;
 
 	string MakeText(string, int);
 	Timer timerAmpulheta;
@@ -90,7 +92,10 @@ private:
 	static void SelectSoldier();
 	static void SelectCleric();
 	static void MenuButton();
+	static void HelpButton();
 	static void PauseButton();
+	static void MuteButton();
+	bool eventTrigger;
 };
 
 

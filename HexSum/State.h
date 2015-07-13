@@ -9,8 +9,8 @@
 
 class State {
 	protected:
-		bool popRequested;
 		bool quitRequested;
+		bool popRequested;
 		std::vector<std::unique_ptr<GameObject>> objectArray;
 		std::vector<std::unique_ptr<UIElement>> UIArray;
 		virtual void UpdateUIArray(float);
@@ -20,6 +20,7 @@ class State {
 
 
 	public:
+
 		State();
 		virtual ~State();
 

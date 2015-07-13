@@ -47,3 +47,8 @@ void Button::SetScale(float Scale){
 	box.SetHeight(box.h*Scale);
 	box.SetWidth(box.w*Scale);
 }
+
+void Button::SetSP(string over, string out){
+	spMouseOver.Open(over);
+	spMouseOut.Open(out);
+}

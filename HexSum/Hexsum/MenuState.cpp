@@ -13,6 +13,7 @@ MenuState::MenuState() : bg("img/fundo.png",1,0){
 		musicMenu.Open("music/Menu_musica.mp3");
 		musicMenu.Play(-1);
 	}
+
 }
 
 void MenuState::Render(){

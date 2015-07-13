@@ -328,7 +328,7 @@ bool Unit::IsDead() {
 	if (hp<=0 && !animating) {
 		location->unit = NULL;
 		location->UnHighlight();
-		Game::GetInstance()->GetCurrentState().AddObject(new StillAnimation(location->box.x+23, location->box.y-25, 0, Sprite("img/death.png", 37, 0.03), 1, true));
+		Game::GetInstance()->GetCurrentState().AddObject(new StillAnimation(location->box.x+23, location->box.y-25, 0, Sprite("img/death.png",37 ,2, 19, 0.03), 1, true));
 		return true;
 	}
 	return false;

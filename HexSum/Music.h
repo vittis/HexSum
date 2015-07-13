@@ -23,6 +23,7 @@ public:
 	void Stop();
 	void Open(std::string);
 	bool IsOpen();
+	void SetVolume(int);
 };
 
 #endif /* MUSIC_H_ */

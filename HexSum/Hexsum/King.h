@@ -21,8 +21,8 @@ public:
 	void PrepareSpecialAbility();
 	void PerformSpecialAbility(Hex *hex);
 	void ShowSummonRange();
-private:
 	SummonManager* summonManager;
+
 };
 
 #endif /* HEXSUM_KING_H_ */

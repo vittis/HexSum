@@ -27,6 +27,23 @@ int SummonManager::GetCustoManaUnidade(int tipoUnidade) {
 
 	return -1;
 }
+int SummonManager::GetCustoAdicional(int tipoUnidade, Player *player) {
+	int custoAdicional=0;
+	string unidade;
+	if (tipoUnidade==0)
+		unidade="Soldier";
+	else if (tipoUnidade==1)
+		unidade="Cleric";
+	else if (tipoUnidade==2)
+		unidade="Archer";
+
+	for (int i=0; i< ArenaState::turnLogic.allUnits.size(); i++) {
+		if (ArenaState::turnLogic.allUnits[i]->Is(unidade) && (ArenaState::turnLogic.allUnits[i]->owner->color == player->color)) {
+			custoAdicional++;
+		}
+	}
+	return custoAdicional;
+}
 void SummonManager::SummonUnit(TipoUnidade tipoUnidade, Hex* hex, Player* player) {
 	Unit* unit;
 	switch (tipoUnidade) {

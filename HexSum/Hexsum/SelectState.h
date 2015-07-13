@@ -17,6 +17,7 @@
 #include "Button.h"
 #include "ArenaState.h"
 #include "StateData.h"
+#include "../Timer.h"
 
 class SelectState: public State {
 private:
@@ -31,6 +32,9 @@ private:
 	static int vez, escolhaRei1, escolhaRei2, escolhaCampo;
 	Rect boxRei1, boxRei2, boxRei3, boxRei4, boxCampo1, boxCampo2, boxCampo3, boxCampo4;
 	static StateData *stateData;
+	Timer timer;
+	bool restartTimer;
+	Text *text1, *text2, *text4;
 
 public:
 	SelectState();

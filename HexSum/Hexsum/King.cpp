@@ -79,7 +79,7 @@ void King::Update(float dt) {
 				if (highlightedHexs[i]->box.IsInside((float)InputManager::GetInstance().GetMouseX(), (float)InputManager::GetInstance().GetMouseY())) {
 					switch (highlightedHexs[i]->color) {
 						case Constants::SPECIAL_ABILITY_RANGE://TODO: checar mana atual p sumona, arenastate::summonSelecionado
-							if (mana >= summonManager->GetCustoManaUnidade(ArenaState::summonSelecionado))
+							if (mana >= summonManager->GetCustoManaUnidade(ArenaState::summonSelecionado) + summonManager->GetCustoAdicional(ArenaState::summonSelecionado, owner))
 								TakeAction(Action::SPECIAL_ABILITY, highlightedHexs[i]);
 							else
 								std::cout<<"nao ha mana suficiente"<<std::endl;
@@ -95,8 +95,8 @@ void King::PrepareSpecialAbility() {
 }
 void King::PerformSpecialAbility(Hex* hex) {
 	SetAnimacao(AnimationType::CASTING);
+	mana -= summonManager->GetCustoManaUnidade(ArenaState::summonSelecionado)+summonManager->GetCustoAdicional(ArenaState::summonSelecionado, owner);
 	summonManager->SummonUnit(static_cast<SummonManager::TipoUnidade>(ArenaState::summonSelecionado), hex, owner);
-	mana -= summonManager->GetCustoManaUnidade(ArenaState::summonSelecionado);
 }
 void King::ShowSummonRange() {
 	for (int i=0; i<ArenaState::grid->hex_directions.size(); i++) {

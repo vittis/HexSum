@@ -27,7 +27,7 @@ public:
 	static constexpr int manaInicial=3;
 	static constexpr int custoManaSoldier=4;
 	static constexpr int custoManaArcher=3;
-	static constexpr int custoManaCleric=6;
+	static constexpr int custoManaCleric=5;
 };
 
 

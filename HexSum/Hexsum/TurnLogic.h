@@ -16,7 +16,7 @@ public:
 	TurnLogic();
 	vector<Unit*> allUnits;
 	int indice;
-
+	int currentTurn;
 	void PassTurnToNextUnit();
 	void RemoveUnit(Unit* unit);
 

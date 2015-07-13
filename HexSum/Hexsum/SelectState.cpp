@@ -18,11 +18,18 @@ int SelectState::vez = 0;
 SelectState::SelectState():  bg("img/Pre-Jogo/pre_jogo_fundo.png", 1, 0), cortina_fundo(640,384, "img/Pre-Jogo/cortinas_boas.png"),
 		cortina_esquerda(305, 384, "img/Pre-Jogo/cortina_esquerda.png"), cortina_direita(975, 384, "img/Pre-Jogo/cortina_direita.png"),
 		sombra_cima(640, 384, "img/Pre-Jogo/sombra_preta_cima.png"), sombra_baixo(640, 384, "img/Pre-Jogo/sombra_preta_baixo.png"),
-		campo1min(640, 240, "img/Pre-Jogo/gelo.png"), campo2min(640, 240, "img/Pre-Jogo/floresta.png"), campo4min(640, 240, "img/Pre-Jogo/castelo.png"){
+		campo1min(640, 225, "img/Pre-Jogo/gelo.png"), campo2min(640, 225, "img/Pre-Jogo/floresta.png"),
+		campo4min(640, 225, "img/Pre-Jogo/castelo.png") {
 
 	vez = 0; escolhaRei1 = 0; escolhaRei2 = 0; escolhaCampo = 0;
 
 	sombra_anim = Sprite("img/Pre-Jogo/sombra_preta_anim.png", 10, 0.1);
+
+	restartTimer = false;
+
+	text1 = new Text("font/mask.ttf", 26, TextStyle::BLENDED, "CRAZY FREEZING", Color::GetColor(0,0,0,0), 555, 280);
+	text2 = new Text("font/mask.ttf", 26, TextStyle::BLENDED, "FLORESTA ENCANTADA", Color::GetColor(0,0,0,0), 535, 280);
+	text4 = new Text("font/mask.ttf", 26, TextStyle::BLENDED, "DIES IRAE", Color::GetColor(0,0,0,0), 590, 280);
 
 	rei1.Open("img/Pre-Jogo/statua_rei_azul.png"); //azul
 	rei2.Open("img/Pre-Jogo/statua_rei_verde.png"); //verde
@@ -85,7 +92,7 @@ SelectState::SelectState():  bg("img/Pre-Jogo/pre_jogo_fundo.png", 1, 0), cortin
 	boxCampo4.w = campo4.GetWidth();
 	boxCampo4.h = campo4.GetHeight();
 
-	Button * buttonPlay = new Button(680, 670, "img/button_play_over.png", "img/button_play_out.png", &NextState);
+	Button * buttonPlay = new Button(730, 670, "img/button_play_over.png", "img/button_play_out.png", &NextState);
 	buttonPlay->SetScale(0.5);
 	AddUIElement(buttonPlay);
 }
@@ -96,6 +103,7 @@ void SelectState::Update(float dt) {
 	}
 
 	sombra_anim.Update(dt);
+	timer.Update(dt);
 
 	MoveCortina(6);
 	OnClick();
@@ -121,13 +129,18 @@ void SelectState::Render() {
 
 	RenderCampoMiniatura();
 
-	sombra_anim.Render(0, 0, 0);
-
 	if (vez != 2) {
 		sombra_cima.Render();
 	}
 	if (vez == 2) {
-		sombra_baixo.Render();
+		if (!restartTimer) {
+			timer.Restart();
+			restartTimer = true;
+		}
+		if (timer.Get() >= 1)
+			sombra_baixo.Render();
+		else
+			sombra_anim.Render(0, 0, 0);
 	}
 
 	RenderUIArray();
@@ -212,12 +225,18 @@ void SelectState::RenderRei() {
 }
 
 void SelectState::RenderCampoMiniatura() {
-	if (escolhaCampo == 2)
+	if (escolhaCampo == 2) {
 		campo1min.Render();
-	else if (escolhaCampo == 1)
+		text1->Render(0,0);
+	}
+	else if (escolhaCampo == 1) {
 		campo2min.Render();
-	else if (escolhaCampo == 3)
+		text2->Render(0,0);
+	}
+	else if (escolhaCampo == 3) {
 		campo4min.Render();
+		text4->Render(0,0);
+	}
 }
 
 void SelectState::NextState() {
